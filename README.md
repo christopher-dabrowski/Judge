@@ -1,0 +1,1 @@
+# Sędzia na Algorytmy i struktury danych
