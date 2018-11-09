@@ -49,4 +49,28 @@ public class PlaygroundTest {
         if (actualNumberOfObstacles - numberOfObstacles != 0)
             fail("There are not as many obstacles as there should be");
     }
+
+    @Test
+    public void validateTile() {
+        tested.makeMap(expectedHeight);
+        Tile[][] map = tested.getMap();
+        map[0][0].taken();
+        map[0][1].taken();
+
+        int x1 = 1, y1 = 1; // Correct coordinates of a new tile
+        int x2 = 0, y2 = 1; //
+
+        boolean result = tested.validateTile(y1, x1, y2, x2);
+
+        if (!result) fail("Correct tile is considered wrong");
+
+        x1 = 0;
+        y1 = 0; // Incorrect coordinates of a new tile
+        x2 = 1;
+        y2 = 0;
+        result = tested.validateTile(y1, x1, y2, x2);
+
+        if (result) fail("Incorrect tile is considered valid");
+
+    }
 }

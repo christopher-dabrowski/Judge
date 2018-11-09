@@ -12,7 +12,7 @@ public class Playground {
     @Setter
     private float percentageOfObstacles = 0.1f;
 
-    void makeMap(int height) {
+    public void makeMap(int height) {
         if (height % 2 == 0)
             throw new IllegalArgumentException("Even number as height");
         map = new Tile[height][height];
@@ -23,7 +23,7 @@ public class Playground {
         }
     }
 
-    void addObstacles() {
+    public void addObstacles() {
         int numberOfObstacles = Math.round((map.length * map.length) * percentageOfObstacles);
         seeds = new long[2 * numberOfObstacles];
         Random rng = new Random();
@@ -44,6 +44,22 @@ public class Playground {
             seeds[i++] = y;
             seeds[i] = x;
         }
+
+    }
+
+    public boolean validateTile(int y1, int x1, int y2, int x2) {
+        if (y1 > map.length || y1 < 0)
+            return false;
+        if (x1 > map.length || x1 < 0)
+            return false;
+        if (y2 > map.length || y2 < 0)
+            return false;
+        if (x2 > map.length || x2 < 0)
+            return false;
+        if (map[y1][x1].isTaken() || map[y2][x1].isTaken()) {
+            return false;
+        }
+        return (y1 - y2 == 1) ^ (x1 - x2 == 1);
 
     }
 }
