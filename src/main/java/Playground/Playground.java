@@ -31,12 +31,11 @@ public class Playground {
         for (int i = 0; i < numberOfObstacles * 2; i++) {
             long tmp = System.currentTimeMillis();
             rng.setSeed(tmp);
-            int x = rng.nextInt() % map.length;
+            int x = rng.nextInt(map.length);
             tmp = System.currentTimeMillis();
             rng.setSeed(tmp);
-            int y = rng.nextInt() % map.length;
-
-            if (map[y][x].isTaken()) { //
+            int y = rng.nextInt(map.length);
+            if (map[y][x].isTaken()) {
                 i--;
                 continue;
             }
@@ -47,6 +46,7 @@ public class Playground {
 
     }
 
+    //TODO Sprawić aby przeciw ległe komórki sąsiadowały ze sobą
     public boolean validateTile(int y1, int x1, int y2, int x2) {
         if (y1 > map.length || y1 < 0)
             return false;
