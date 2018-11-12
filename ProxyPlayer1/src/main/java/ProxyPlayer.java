@@ -10,17 +10,17 @@ public class ProxyPlayer {
         ok();
         String info = scanner.next();
         if (info.compareTo("START") == 0) {
-            int[] y = {0, 0}, x = {0, 1};
-            print(y[0]++, x[0], y[1]++, x[1]);
+            int[] y = {0, 1}, x = {2, 2};
+            print(y[0], x[0]++, y[1], x[1]++);
             for (int i = 0; scanner.hasNext(); i++) {
                 info = scanner.next();
-                print(y[0]++, x[0], y[1]++, x[1]);
+                print(y[0], x[0]++, y[1], x[1]++);
             }
         } else {
             int[] y = {0, 0}, x = {0, 1};
             for (int i = 0; scanner.hasNext(); i++) {
                 info = scanner.next();
-                print(y[0]++, x[0], y[1]++, x[1]);
+                print(y[0], x[0]++, y[1], x[1]++);
             }
         }
     }
