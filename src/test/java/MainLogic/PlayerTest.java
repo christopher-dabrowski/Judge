@@ -42,4 +42,10 @@ public class PlayerTest {
     public void getLunchCommand() {
         if (!player.getLunchCommand().equals(lunchCommand)) fail();
     }
+
+    @Test
+    public void testToString() {
+        if (!player.toString().equals("" + alias + " " + name + " " + surname + " " + lunchCommand))
+            fail();
+    }
 }
