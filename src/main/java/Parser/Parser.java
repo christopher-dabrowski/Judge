@@ -10,27 +10,34 @@ public class Parser {
     public static Player readPlayerInfo(String fileName) throws FileNotFoundException, Exception {
 
         Scanner input = new Scanner(new FileReader(fileName));
-//        while (input.hasNext()) {
-//            System.out.println(input.next());
-//        }
-        //ToDo Check if file is corect ex. use regex
         String alias, name, surname, lunchCommand;
+
         if (input.hasNext())
-            alias = input.next();
+            alias = input.nextLine();
         else throw new Exception("Not enough player information");
-        if (input.hasNext())
+
+        if (input.hasNext()) {
             name = input.next();
-        else throw new Exception("Not enough player information");
-        if (input.hasNext())
+            if (!name.matches("\\p{L}+")) throw new Exception("Invalid player name");
+        } else throw new Exception("Not enough player information");
+
+        if (input.hasNext()) {
             surname = input.next();
-        else throw new Exception("Not enough player information");
-        if (input.hasNext())
-            lunchCommand = input.next();
-        else throw new Exception("Not enough player information");
+            if (!surname.matches("\\p{L}+")) throw new Exception("Invalid player surname");
+        } else throw new Exception("Not enough player information");
+
+        //Finish line with name and surname
+        if (input.hasNext()) {
+            input.nextLine();
+        } else throw new Exception("Not enough player information");
+
+        if (input.hasNext()) {
+            lunchCommand = input.nextLine();
+            if (lunchCommand.length() <= 0) throw new Exception("Invalid lunch command");
+        } else throw new Exception("Not enough player information");
 
         input.close();
 
-        //throw new NotImplementedException();
         return new Player(alias, name, surname, lunchCommand);
     }
 }
