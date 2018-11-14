@@ -1,5 +1,6 @@
 package Parser;
 
+import MainLogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,18 @@ public class ParserTest {
 
     @Test
     public void readPlayerInfo() {
-        Parser.readPlayerInfo("testFile.txt");
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+        //if (player == null) fail();
+
+        //ToDo Use variables
+        if (!player.toString().equals("Kserkses Aleksander Dobrowolski fajny_program.exe")) fail();
     }
 
     @After
