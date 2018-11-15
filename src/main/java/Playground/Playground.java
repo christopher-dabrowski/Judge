@@ -8,6 +8,7 @@ import java.util.Random;
 @Getter
 public class Playground {
     private Tile[][] map;
+    private int size;
     private long[] seeds; // y , x ...
     @Setter
     private float percentageOfObstacles = 0.1f;
@@ -15,6 +16,7 @@ public class Playground {
     public void makeMap(int height) {
         if (height % 2 == 0)
             throw new IllegalArgumentException("Even number as height");
+        size = height;
         map = new Tile[height][height];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map.length; j++) {
@@ -46,8 +48,9 @@ public class Playground {
 
     }
 
+    //TODO Sprawić aby wskazany tile był zajmowany.
     //TODO Sprawić aby przeciw ległe komórki sąsiadowały ze sobą
-    public boolean validateTile(int y1, int x1, int y2, int x2) {
+    public boolean validateTileAndTake(int y1, int x1, int y2, int x2) {
         if (y1 > map.length || y1 < 0)
             return false;
         if (x1 > map.length || x1 < 0)
