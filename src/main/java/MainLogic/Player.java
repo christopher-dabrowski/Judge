@@ -28,4 +28,9 @@ public class Player {
     public String getLunchCommand() {
         return lunchCommand;
     }
+
+    //ToDo Add @override java thing
+    public String toString() {
+        return getAlias() + " " + getName() + " " + getSurname() + " " + getLunchCommand();
+    }
 }
