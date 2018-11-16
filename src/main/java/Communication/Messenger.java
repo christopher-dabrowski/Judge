@@ -38,10 +38,11 @@ public class Messenger {
     public long sendPlaygroundSizePlayer(int n, Player player) throws IOException {
         ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
         long start = System.currentTimeMillis();
-        thisExtendedPlayer.playerPrintStream.print(n);
+        thisExtendedPlayer.playerPrintStream.println(n);
         thisExtendedPlayer.playerPrintStream.flush();
-        char[] toProcess = new char[2];
-        thisExtendedPlayer.playerOutputStream.read(toProcess, 0, toProcess.length);
+        char[] toProcess = new char[4];
+        if (thisExtendedPlayer.playerOutputStream.read(toProcess, 0, toProcess.length) != toProcess.length)
+            throw new IOException();
         long timeTaken = System.currentTimeMillis() - start;
         System.out.println(toProcess[0] + "  " + toProcess[1]);
         if (!(toProcess[0] == 'o' && toProcess[1] == 'k'))

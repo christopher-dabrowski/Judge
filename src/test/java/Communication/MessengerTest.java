@@ -39,7 +39,7 @@ public class MessengerTest {
     @Test
     public void sendPlaygroundSizePlayer1() {
         try {
-            messenger.sendPlaygroundSizePlayer(playGroundsize);
+            messenger.sendPlaygroundSizePlayer(playGroundsize, playerOne);
         } catch (Exception e) {
             fail();
         }
@@ -47,5 +47,10 @@ public class MessengerTest {
 
     @Test
     public void sendPlaygroundSizePlayer2() {
+        try {
+            messenger.sendPlaygroundSizePlayer(playGroundsize, playerTwo);
+        } catch (Exception e) {
+            fail();
+        }
     }
 }
