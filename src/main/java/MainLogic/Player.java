@@ -30,6 +30,7 @@ public class Player {
     }
 
     //ToDo Add @override java thing
+    @Override
     public String toString() {
         return getAlias() + " " + getName() + " " + getSurname() + " " + getLunchCommand();
     }
