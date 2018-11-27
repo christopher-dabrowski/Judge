@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ProxyPlayer {
+public class ProxyPlayer1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int heigh = Integer.parseInt(scanner.next());

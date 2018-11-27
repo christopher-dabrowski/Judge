@@ -28,11 +28,11 @@ public class Game {
         Messenger messenger = new Messenger(playerOne, playerTwo);
         try {
             messenger.openCommunication();
-            if (messenger.sendPlaygroundSizePlayer(playground.getSize(), playerOne) > 500) {
+            if (messenger.sendPlaygroundSize(playground.getSize(), playerOne) > 500) {
                 setWinner(playerTwo, Result.KONCKOUT);
                 return;
             }
-            if (messenger.sendPlaygroundSizePlayer(playground.getSize(), playerTwo) > 500) {
+            if (messenger.sendPlaygroundSize(playground.getSize(), playerTwo) > 500) {
                 setWinner(playerOne, Result.KONCKOUT);
                 return;
             }

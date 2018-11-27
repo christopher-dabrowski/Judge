@@ -17,29 +17,29 @@ public class Messenger {
     @Getter
     private long timeOfLastMove;
 
+
     public Messenger(Player one, Player two) {
         extendedPlayer1 = new ExtendedPlayer(one);
         extendedPlayer2 = new ExtendedPlayer(two);
     }
 
     public void openCommunication() throws IOException {
-        Runtime runTime = Runtime.getRuntime();
         //TODO Make possible to distinguish which player had problems executing
-        extendedPlayer1.playerProcess = runTime.exec(extendedPlayer1.player.getLunchCommand());
-        extendedPlayer1.playerPrintStream = new PrintStream(extendedPlayer1.playerProcess.getOutputStream(), true);
-        extendedPlayer1.playerOutputStream = new InputStreamReader(extendedPlayer1.playerProcess.getInputStream());
-        //TODO I don't like this. It should be simplified, maybe put in player?
-        extendedPlayer2.playerProcess = runTime.exec(extendedPlayer2.player.getLunchCommand());
-        extendedPlayer2.playerPrintStream = new PrintStream(extendedPlayer2.playerProcess.getOutputStream(), true);
-        extendedPlayer2.playerOutputStream = new InputStreamReader(extendedPlayer2.playerProcess.getInputStream());
+        setUpExtendedPlayer(extendedPlayer1);
+        setUpExtendedPlayer(extendedPlayer2);
+    }
+
+    private void setUpExtendedPlayer(ExtendedPlayer extendedPlayer) throws IOException {
+        extendedPlayer.playerProcess = Runtime.getRuntime().exec(extendedPlayer.player.getLunchCommand());
+        extendedPlayer.playerPrintStream = new PrintStream(extendedPlayer.playerProcess.getOutputStream(), true);
+        extendedPlayer.playerOutputStream = new InputStreamReader(extendedPlayer.playerProcess.getInputStream());
     }
 
     //    TODO Making it work
-    public long sendPlaygroundSizePlayer(int n, Player player) throws IOException {
+    public long sendPlaygroundSize(int n, Player player) throws IOException {
         ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
         long start = System.currentTimeMillis();
         thisExtendedPlayer.playerPrintStream.println(n);
-        thisExtendedPlayer.playerPrintStream.flush();
         char[] toProcess = new char[4];
         if (thisExtendedPlayer.playerOutputStream.read(toProcess, 0, toProcess.length) != toProcess.length)
             throw new IOException();
@@ -51,7 +51,9 @@ public class Messenger {
         return timeTaken;
     }
 
-    public long sendObstaclesPlayer1(long[] obstacles, Player player) {
+    // TODO
+    public long sendObstacles(long[] obstacles, Player player) {
+
         return 0;
     }
 

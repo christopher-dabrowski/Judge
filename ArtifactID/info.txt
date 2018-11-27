@@ -1,0 +1,3 @@
+deepBlue
+Deep Blue
+java -jar "E:\AA_Studia\3_semestr\Algorytmy i struktury danych\Judge\out\artifacts\ArtifactID_jar\ArtifactID.jar"
