@@ -9,10 +9,10 @@ import static org.junit.Assert.fail;
 
 public class MessengerTest {
 
-    Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-    Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
-    Messenger messenger = new Messenger(playerOne, playerTwo);
-    final int playGroundsize = 10;
+    private Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+    private Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+    private Messenger messenger = new Messenger(playerOne, playerTwo);
+    private final int playGroundsize = 10;
 
     @Before
     public void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class MessengerTest {
     @Test
     public void sendPlaygroundSizePlayer1() {
         try {
-            messenger.sendPlaygroundSizePlayer(playGroundsize, playerOne);
+            messenger.sendPlaygroundSize(playGroundsize, playerOne);
         } catch (Exception e) {
             fail();
         }
@@ -48,7 +48,7 @@ public class MessengerTest {
     @Test
     public void sendPlaygroundSizePlayer2() {
         try {
-            messenger.sendPlaygroundSizePlayer(playGroundsize, playerTwo);
+            messenger.sendPlaygroundSize(playGroundsize, playerTwo);
         } catch (Exception e) {
             fail();
         }
