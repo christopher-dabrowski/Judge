@@ -1,10 +1,12 @@
 package FileManager;
 
+import MainLogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.fail;
 
@@ -18,9 +20,22 @@ public class FileManagerTest {
     public void tearDown() throws Exception {
     }
 
+    //ToDo Write solid tests
     @Test
     public void importPlayers() {
-        //System.out.println(FileManager.PLAYERS_FOLDER);
+        try {
+            ArrayList<String> errors = new ArrayList<String>();
+            ArrayList<Player> players = FileManager.importPlayers(errors);
+
+            for (Player player : players) {
+                System.out.println(player);
+            }
+            System.out.println("Errors:");
+            for (String s : errors)
+                System.out.println(s);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test
