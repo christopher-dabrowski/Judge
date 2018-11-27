@@ -4,15 +4,23 @@ import MainLogic.Player;
 import Parser.Parser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class FileManager {
     private static String PLAYERS_FOLDER_NAME = "players";
 
-    //ToDo write importPlayers()
-    public static ArrayList<Player> importPlayers() throws IOException {
+    /**
+     * Imports players from players folder
+     *
+     * @param errors Error messages from loading are appended here
+     * @return Array of corectly loaded players
+     * @throws IOException When unable to find players folder
+     */
+    public static ArrayList<Player> importPlayers(ArrayList<String> errors) throws IOException {
         ArrayList<Player> players = new ArrayList<Player>();
 
         FilenameFilter playerFolderFilter = new FilenameFilter() {
@@ -31,14 +39,14 @@ public class FileManager {
 
             try {
                 if (playerFolder.listFiles(playerInfoFilter).length != 1) //Brakuje pliku info.txt
-                    throw new IOException("Players folder missing info.txt");
+                    throw new FileNotFoundException("Players folder missing info.txt");
 
                 File playerInfo = playerFolder.listFiles(playerInfoFilter)[0];
-                //ToDo Test how it works!
                 players.add(Parser.readPlayerInfo(playerInfo.getPath()));
-            } catch (Exception e) {
-                //ToDo handle error with loading player
-                //Maybe return array with players that cosed errors
+            } catch (FileNotFoundException e) {
+                errors.add("Folder " + playerFolder.getName() + " is missing info.txt file");
+            } catch (ParseException e) {
+                errors.add("Error when parsing info.txt form folder " + playerFolder.getName() + " Error: " + e.getMessage());
             }
         }
 
