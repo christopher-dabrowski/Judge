@@ -14,6 +14,12 @@ public class FileManager {
     //ToDo write importPlayers()
     public static ArrayList<Player> importPlayers() throws IOException {
         ArrayList<Player> players = new ArrayList<Player>();
+
+        FilenameFilter playerFolderFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.matches("\\d{6}");
+            }
+        };
         FilenameFilter playerInfoFilter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.equals("info.txt");
@@ -21,9 +27,7 @@ public class FileManager {
         };
 
         File playersFolder = new File(getPlayersFolderLocation());
-        for (File playerFolder : playersFolder.listFiles()) {
-            //ToDo Check if folder name is correct
-            //System.out.println(folder.toString());
+        for (File playerFolder : playersFolder.listFiles(playerFolderFilter)) {
 
             try {
                 if (playerFolder.listFiles(playerInfoFilter).length != 1) //Brakuje pliku info.txt
