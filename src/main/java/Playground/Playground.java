@@ -48,9 +48,9 @@ public class Playground {
 
     }
 
-    //TODO Sprawić aby wskazany tile był zajmowany.
-    //TODO Sprawić aby przeciw ległe komórki sąsiadowały ze sobą
-    public boolean validateTileAndTake(int y1, int x1, int y2, int x2) {
+    //TODO Make pointed tile taken
+    //TODO make furthest files neighbour
+    public boolean take(int y1, int x1, int y2, int x2) {
         if (y1 > map.length || y1 < 0)
             return false;
         if (x1 > map.length || x1 < 0)

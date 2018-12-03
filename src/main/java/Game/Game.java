@@ -3,7 +3,6 @@ package Game;
 import Communication.Messenger;
 import MainLogic.Player;
 import Playground.Playground;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -18,33 +17,37 @@ public class Game {
     @NonNull
     private Playground playground;
 
-    @Getter
-    private Player winner;
-    @Getter
-    private Result result;
-
-    //TODO ADD Loging moves
-    public void start() {
+    //TODO add option of time out
+    //TODO ADD Logging moves
+    public Player play() {
         Messenger messenger = new Messenger(playerOne, playerTwo);
         try {
             messenger.openCommunication();
-            if (messenger.sendPlaygroundSizePlayer(playground.getSize(), playerOne) > 500) {
-                setWinner(playerTwo, Result.KONCKOUT);
-                return;
-            }
-            if (messenger.sendPlaygroundSizePlayer(playground.getSize(), playerTwo) > 500) {
-                setWinner(playerOne, Result.KONCKOUT);
-                return;
-            }
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
-        messenger.endCommunication();
+        long startTime = System.currentTimeMillis();
+        long timeTaken = 0;
+        messenger.send(String.valueOf(playground.getSize()), playerOne);
+//        Wait for message to be delivered
+        Thread.yield();
+        while (!messenger.isDelivered()) {
+            Thread.yield();
+            if (timeTaken > 500) { //Max time for one move
+                messenger.endCommunication();
+                return playerTwo;
+            }
+            timeTaken = System.currentTimeMillis() - startTime;
+            Thread.yield();
+        }
+        System.out.println(messenger.getAnswer());
+        if (isOk(messenger.getAnswer()))
+            return playerOne;
+        else
+            return playerTwo;
     }
 
-    private void setWinner(Player player, Result result) {
-        winner = player;
-        this.result = result;
+    private boolean isOk(String message) {
+        return message.equals("ok");
     }
 }
