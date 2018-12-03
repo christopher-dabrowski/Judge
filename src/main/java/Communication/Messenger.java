@@ -34,7 +34,6 @@ public class Messenger {
                     return;
                 }
                 Thread.yield();
-                ;
             }
         }
     });
