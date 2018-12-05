@@ -15,16 +15,16 @@ public class GameTest {
     private Game game;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         playground.makeMap(13);
         game = new Game(playerOne, playerTwo, playground);
     }
 
     @Test
     public void play() {
-        Player winner = game.play();
+        GameResult winner = game.play();
         System.out.println(winner.toString());
-        if (winner != playerOne)
+        if (winner.getPlayer() != playerOne)
             fail();
     }
 }

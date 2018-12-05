@@ -44,6 +44,7 @@ public class Messenger {
         extendedPlayer2 = new ExtendedPlayer(two);
     }
 
+    //TODO Potentially unnecessary synchronization
     synchronized public boolean isDelivered() {
         return isDelivered;
     }

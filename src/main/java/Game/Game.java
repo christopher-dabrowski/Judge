@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class Game {
@@ -17,37 +18,84 @@ public class Game {
     @NonNull
     private Playground playground;
 
+    private Messenger messenger;
+
     //TODO add option of time out
-    //TODO ADD Logging moves
-    public Player play() {
-        Messenger messenger = new Messenger(playerOne, playerTwo);
+    //TODO add logging moves
+    //TODO consider caching the answer
+    //TODO add endCommunication method in order to save CPU
+    public GameResult play() {
+        messenger = new Messenger(playerOne, playerTwo);
+        long timeTaken;
         try {
             messenger.openCommunication();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long startTime = System.currentTimeMillis();
-        long timeTaken = 0;
-        messenger.send(String.valueOf(playground.getSize()), playerOne);
-//        Wait for message to be delivered
+        //TODO find a way to avoid mistaking players
+        //Send basic intel about
+        timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
+        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
+            return new GameResult(playerTwo, Setteling.CLASSIC);
+
+        timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
+        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
+            return new GameResult(playerOne, Setteling.CLASSIC);
+//Send obstacles
+        timeTaken = oneMove(Arrays.toString(playground.getSeeds()), playerOne);
+        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
+            return new GameResult(playerTwo, Setteling.CLASSIC);
+
+        timeTaken = oneMove(Arrays.toString(playground.getSeeds()), playerTwo);
+        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
+            return new GameResult(playerOne, Setteling.CLASSIC);
+//Start game
+        while (true) {
+            timeTaken = oneMove("START", playerOne);
+            String answer = messenger.getAnswer();
+            if (isWrong(answer, timeTaken, MessageType.MOVE))
+                return new GameResult(playerTwo, Setteling.CLASSIC);
+
+            timeTaken = oneMove(answer, playerTwo);
+            answer = messenger.getAnswer();
+            if (isWrong(answer, timeTaken, MessageType.MOVE))
+                return new GameResult(playerOne, Setteling.CLASSIC);
+        }
+    }
+
+    /*
+    TODO consider increasing time measuring precision
+    TODO find better fitting name
+    */
+    private long oneMove(String message, Player player) {
+        long timeTaken = 0, startTime = System.currentTimeMillis();
+        messenger.send(message, player);
         Thread.yield();
         while (!messenger.isDelivered()) {
             Thread.yield();
             if (timeTaken > 500) { //Max time for one move
-                messenger.endCommunication();
-                return playerTwo;
+                return timeTaken;
             }
             timeTaken = System.currentTimeMillis() - startTime;
             Thread.yield();
         }
-        System.out.println(messenger.getAnswer());
-        if (isOk(messenger.getAnswer()))
-            return playerOne;
-        else
-            return playerTwo;
+        return timeTaken;
     }
 
-    private boolean isOk(String message) {
-        return message.equals("ok");
+    /*
+    TODO consider making it case insensitive
+    TODO make distinguishable case when time out
+    */
+    private boolean isWrong(String answer, long timeTaken, MessageType messageType) {
+        if (timeTaken > 500) return false; //Hard coded value of maximum response time
+        switch (messageType) {
+            case MOVE:
+                String[] tokens = answer.split("[{},;]");
+                if (tokens.length != 4) return false;
+                return playground.take(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
+            case INFORMATION:
+                return answer.equals("ok");
+        }
+        return false;
     }
 }
