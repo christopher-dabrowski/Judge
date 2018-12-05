@@ -9,10 +9,9 @@ import static org.junit.Assert.fail;
 
 public class MessengerTest {
 
-    Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-    Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
-    Messenger messenger = new Messenger(playerOne, playerTwo);
-    final int playGroundsize = 10;
+    private Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+    private Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+    private Messenger messenger = new Messenger(playerOne, playerTwo);
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +23,8 @@ public class MessengerTest {
         messenger.endCommunication();
     }
 
+    //
+//    TODO Find a way to way to test opened conection
     @Test
     public void openCommunication() {
 //        messenger.openCommunication();
@@ -39,16 +40,8 @@ public class MessengerTest {
     @Test
     public void sendPlaygroundSizePlayer1() {
         try {
-            messenger.sendPlaygroundSizePlayer(playGroundsize, playerOne);
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void sendPlaygroundSizePlayer2() {
-        try {
-            messenger.sendPlaygroundSizePlayer(playGroundsize, playerTwo);
+            int playGroundSize = 10;
+            messenger.send(String.valueOf(playGroundSize), playerOne);
         } catch (Exception e) {
             fail();
         }

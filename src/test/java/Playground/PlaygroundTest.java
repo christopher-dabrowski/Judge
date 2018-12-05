@@ -60,7 +60,7 @@ public class PlaygroundTest {
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //
 
-        boolean result = tested.validateTileAndTake(y1, x1, y2, x2);
+        boolean result = tested.take(y1, x1, y2, x2);
 
         if (!result) fail("Correct tile is considered wrong");
 
@@ -68,7 +68,7 @@ public class PlaygroundTest {
         y1 = 0; // Incorrect coordinates of a new tile
         x2 = 1;
         y2 = 0;
-        result = tested.validateTileAndTake(y1, x1, y2, x2);
+        result = tested.take(y1, x1, y2, x2);
 
         if (result) fail("Incorrect tile is considered valid");
 
