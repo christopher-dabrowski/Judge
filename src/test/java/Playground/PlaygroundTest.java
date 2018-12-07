@@ -1,6 +1,5 @@
 package Playground;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,8 +57,8 @@ public class PlaygroundTest {
     public void validateTile() {
         tested.makeMap(expectedHeight);
         Tile[][] map = tested.getMap();
-        map[0][0].taken();
-        map[0][1].taken();
+        map[0][0].take();
+        map[0][1].take();
 
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -69,7 +68,7 @@ public class Playground {
             int row = pickedFiled/size;
             int column = pickedFiled - row*size;
 
-            map[row][column].taken();
+            map[row][column].take();
             obstacles[i] = new Obstacle(column, row);
         }
     }
@@ -100,14 +99,14 @@ public class Playground {
                 i--;
                 continue;
             }
-            map[y][x].taken();
+            map[y][x].take();
             seeds[i++] = y;
             seeds[i] = x;
         }
 
     }
 
-    //TODO Make pointed tile taken
+    //TODO Make pointed tile take
     //TODO make furthest files neighbour
     public boolean take(int y1, int x1, int y2, int x2) {
         if (y1 > map.length || y1 < 0)

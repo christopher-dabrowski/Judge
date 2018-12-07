@@ -6,7 +6,7 @@ public class Tile {
     @Getter
     private boolean taken = false;
 
-    public void taken() {
+    public void take() {
         taken = true;
     }
 
