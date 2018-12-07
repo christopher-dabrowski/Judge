@@ -1,7 +1,11 @@
 package Playground;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.fail;
 
@@ -72,5 +76,36 @@ public class PlaygroundTest {
 
         if (result) fail("Incorrect tile is considered valid");
 
+    }
+
+    @Test
+    public void printObstacles() {
+        Playground playground = new Playground();
+
+        int mapSize = 5;
+        playground.makeMap(mapSize);
+        playground.generateObstacles();
+
+        int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
+        String result = playground.printObstacles();
+
+        Pattern pattern = Pattern.compile("\\{\\d+;\\d+\\}"); //Pattern for single obstacle
+
+        Matcher matcher = pattern.matcher(result);
+        int count = 0;
+        while (matcher.find())
+            count++;
+        if (count != numberOfObstacles)
+            fail();
+
+
+        Obstacle[] testObstacles = {new Obstacle(1, 2), new Obstacle(17, 4), new Obstacle(3, 8)};
+        String expectedResult = "{1;2},{17;4},{3;8}";
+
+        playground.loadObstacles(testObstacles);
+        if (!playground.printObstacles().equals(expectedResult))
+            fail();
+
+        //System.out.println(playground.printObstacles());
     }
 }
