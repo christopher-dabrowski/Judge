@@ -6,12 +6,21 @@ import lombok.Setter;
 import java.util.Random;
 
 @Getter
-public class Playground {
+public class Playground implements Cloneable {
     private Tile[][] map;
     private int size;
     private long[] seeds; // y , x ...
     @Setter
     private float percentageOfObstacles = 0.1f;
+
+    public Playground clone() {
+        Playground clone = new Playground();
+        clone.map = this.map;
+        clone.size = this.size;
+        clone.seeds = this.seeds;
+        clone.percentageOfObstacles = this.percentageOfObstacles;
+        return clone;
+    }
 
     public void makeMap(int height) {
         if (height % 2 == 0)
