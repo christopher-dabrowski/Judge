@@ -19,7 +19,7 @@ public class Playground implements Cloneable {
         Playground clone = new Playground();
         clone.map = this.map;
         clone.size = this.size;
-        clone.seeds = this.seeds;
+        clone.obstacles = obstacles.clone();
         clone.percentageOfObstacles = this.percentageOfObstacles;
         return clone;
     }
