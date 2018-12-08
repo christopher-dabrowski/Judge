@@ -3,6 +3,9 @@ package Playground;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static org.junit.Assert.fail;
 
 public class PlaygroundTest {
@@ -30,7 +33,7 @@ public class PlaygroundTest {
     }
 
     @Test
-    public void addObstacles() {
+    public void addObstaclesPreviousTest() {
         tested.makeMap(expectedHeight);
         tested.addObstacles();
         int width = tested.getMap().length;
@@ -54,8 +57,8 @@ public class PlaygroundTest {
     public void validateTile() {
         tested.makeMap(expectedHeight);
         Tile[][] map = tested.getMap();
-        map[0][0].taken();
-        map[0][1].taken();
+        map[0][0].take();
+        map[0][1].take();
 
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //
@@ -72,5 +75,36 @@ public class PlaygroundTest {
 
         if (result) fail("Incorrect tile is considered valid");
 
+    }
+
+    @Test
+    public void addObstacles() {
+        Playground playground = new Playground();
+
+        int mapSize = 5;
+        playground.makeMap(mapSize);
+        playground.addObstacles();
+
+        int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
+        String result = playground.printObstacles();
+
+        Pattern pattern = Pattern.compile("\\{\\d+;\\d+\\}"); //Pattern for single obstacle
+
+        Matcher matcher = pattern.matcher(result);
+        int count = 0;
+        while (matcher.find())
+            count++;
+        if (count != numberOfObstacles)
+            fail();
+
+
+        Obstacle[] testObstacles = {new Obstacle(1, 2), new Obstacle(17, 4), new Obstacle(3, 8)};
+        String expectedResult = "{1;2},{17;4},{3;8}";
+
+        playground.loadObstacles(testObstacles);
+        if (!playground.printObstacles().equals(expectedResult))
+            fail();
+
+        //System.out.println(playground.printObstacles());
     }
 }
