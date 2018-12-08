@@ -88,7 +88,7 @@ public class PlaygroundTest {
         int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
         String result = playground.printObstacles();
 
-        Pattern pattern = Pattern.compile("\\{\\d+;\\d+\\}"); //Pattern for single obstacle
+        Pattern pattern = Pattern.compile("\\{\\d+;\\d+}"); //Pattern for single obstacle
 
         Matcher matcher = pattern.matcher(result);
         int count = 0;
