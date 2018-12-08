@@ -10,7 +10,6 @@ import java.util.Random;
 public class Playground {
     private Tile[][] map;
     private int size;
-    private long[] seeds; // y , x ...
     @Getter //For creating second map with same obstacles
     private Obstacle[] obstacles;
     @Setter
@@ -49,7 +48,7 @@ public class Playground {
     /**
      * Fills map with randomly generated obstacles
      */
-    public void generateObstacles() {
+    public void addObstacles() {
         obstacles = new Obstacle[getNumberOfObstacles()];
         LinkedList<Integer> freeSpots = new LinkedList<Integer>(); //Maybe hash table would be faster
 
@@ -75,35 +74,6 @@ public class Playground {
 
     public void loadObstacles(Obstacle[] obstacles) {
         this.obstacles = obstacles;
-    }
-
-    /**
-     * Older version of creating obstacles
-     *
-     * @deprecated use {@link #generateObstacles()} instead.
-     */
-    @Deprecated
-    public void addObstacles() {
-        int numberOfObstacles = Math.round((map.length * map.length) * percentageOfObstacles);
-        seeds = new long[2 * numberOfObstacles];
-        Random rng = new Random();
-
-        for (int i = 0; i < numberOfObstacles * 2; i++) {
-            long tmp = System.currentTimeMillis();
-            rng.setSeed(tmp);
-            int x = rng.nextInt(map.length);
-            tmp = System.currentTimeMillis();
-            rng.setSeed(tmp);
-            int y = rng.nextInt(map.length);
-            if (map[y][x].isTaken()) {
-                i--;
-                continue;
-            }
-            map[y][x].take();
-            seeds[i++] = y;
-            seeds[i] = x;
-        }
-
     }
 
     //TODO Make pointed tile take

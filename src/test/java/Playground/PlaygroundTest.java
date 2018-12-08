@@ -33,7 +33,7 @@ public class PlaygroundTest {
     }
 
     @Test
-    public void addObstacles() {
+    public void addObstaclesPreviousTest() {
         tested.makeMap(expectedHeight);
         tested.addObstacles();
         int width = tested.getMap().length;
@@ -78,12 +78,12 @@ public class PlaygroundTest {
     }
 
     @Test
-    public void printObstacles() {
+    public void addObstacles() {
         Playground playground = new Playground();
 
         int mapSize = 5;
         playground.makeMap(mapSize);
-        playground.generateObstacles();
+        playground.addObstacles();
 
         int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
         String result = playground.printObstacles();
