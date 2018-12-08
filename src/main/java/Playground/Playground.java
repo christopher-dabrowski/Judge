@@ -85,8 +85,15 @@ public class Playground implements Cloneable {
         this.obstacles = obstacles;
     }
 
-    //TODO Make pointed tile take
-    //TODO make furthest files neighbour
+    /**
+     * Tried to place 2x1 block on a board.
+     *
+     * @param y1 y of firs 1x1
+     * @param x1 x of firs 1x1
+     * @param y2 y of second 1x1
+     * @param x2 x of second 1x1
+     * @return If arguments doesn't make valid move returns false
+     */
     public boolean take(int y1, int x1, int y2, int x2) {
         if (y1 > map.length || y1 < 0)
             return false;
@@ -96,10 +103,27 @@ public class Playground implements Cloneable {
             return false;
         if (x2 > map.length || x2 < 0)
             return false;
-        if (map[y1][x1].isTaken() || map[y2][x1].isTaken()) {
+        if (map[y1][x1].isTaken() || map[y2][x1].isTaken())
+            return false;
+
+        if (y1 == y2) { //Horizontal block
+            if (Math.abs(x1 - x2) != 1) { //Blocks aren't directly adjacent
+                if (!((x1 == 0 && x2 == map.length - 1) || (x2 == 0 && x1 == map.length - 1))) //Check if they are on the very right and left edge
+                    return false;
+            }
+        } else if (x1 == x2) { //Vertical block
+            if (Math.abs(y1 - y2) != 1) { //Blocks aren't directly adjacent
+                if (!((y1 == 0 && y2 == map.length - 1) || (y2 == 0 && y1 == map.length - 1))) //Check if they are on the very top and bottom
+                    return false;
+            }
+        } else {
             return false;
         }
-        return (y1 - y2 == 1) ^ (x1 - x2 == 1);
+
+
+        map[y1][x1].take();
+        map[y2][x2].take();
+        return true;
 
     }
 }
