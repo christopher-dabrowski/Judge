@@ -42,11 +42,11 @@ public class Game {
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
 //Send obstacles
-        timeTaken = oneMove(Arrays.toString(playground.getSeeds()), playerOne);
+        timeTaken = oneMove(playground.printObstacles(), playerOne);
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerTwo, Setteling.CLASSIC);
 
-        timeTaken = oneMove(Arrays.toString(playground.getSeeds()), playerTwo);
+        timeTaken = oneMove(playground.printObstacles(), playerTwo);
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
 //Start game
