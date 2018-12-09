@@ -112,7 +112,7 @@ public class PlaygroundTest {
 
     @Test
     public void take() {
-        Playground playground = new Playground(7);
+        Playground playground = new Playground(7, 0.0);
 
         if (playground.take(0, 0, 6, 6)) //Corner invalid tile
             fail();
