@@ -103,10 +103,10 @@ public class Game {
         switch (messageType) {
             case MOVE:
                 String[] tokens = answer.split("[{},;]");
-                if (tokens.length != 4) return false;
-                return playground.take(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
+                if (tokens.length != 4) return true;
+                return !playground.take(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
             case INFORMATION:
-                return answer.equals("ok");
+                return !answer.equals("ok");
         }
         return false;
     }
