@@ -9,25 +9,69 @@ import java.util.Random;
 @Getter
 public class Playground implements Cloneable {
     private Tile[][] map;
-    private int size;
-    @Getter //For creating second map with same obstacles
+    @Getter
+    private final int size;
     private Obstacle[] obstacles;
-    @Setter
-    private float percentageOfObstacles = 0.1f;
+    @Getter
+    private final double percentageOfObstacles;
 
-    public Playground clone() {
-        Playground clone = new Playground();
-        clone.map = this.map;
-        clone.size = this.size;
-        clone.obstacles = obstacles.clone();
-        clone.percentageOfObstacles = this.percentageOfObstacles;
-        return clone;
+    /**
+     * Creates playground with custom amount of obstacles
+     * Mostly for test purposes
+     * @param size Size of game board
+     * @param percentageOfObstacles
+     * @throws IllegalArgumentException
+     */
+    public Playground(int size, double percentageOfObstacles) throws IllegalArgumentException {
+        if (size <= 0)
+            throw  new IllegalArgumentException("Size must be greater then 0");
+        if (size % 2 == 0)
+            throw new IllegalArgumentException("Size must be odd");
+        if (percentageOfObstacles < 0.0 || percentageOfObstacles > 1.0)
+            throw new IllegalArgumentException("Percentage of obstacles must be between 0% - 100%");
+
+        this.size = size;
+        this.percentageOfObstacles = percentageOfObstacles;
+
+        makeMap(size);
+        addObstacles();
     }
 
-    public void makeMap(int height) {
-        if (height % 2 == 0)
-            throw new IllegalArgumentException("Even number as height");
-        size = height;
+    /**
+     * Creates playground with 10% obstacles
+     * @param size Size of game board
+     * @throws IllegalArgumentException
+     */
+    public Playground(int size) throws IllegalArgumentException {
+        this(size, 0.1);
+    }
+
+    /**
+     * Copy constructor
+     * Creates deep copy of Playground
+     * @param playground model for copy
+     */
+    public Playground(Playground playground)
+    {
+        this.map = playground.map.clone();
+        this.size = playground.size;
+        this.obstacles = playground.obstacles.clone();
+        this.percentageOfObstacles = playground.percentageOfObstacles;
+    }
+
+    /**
+     * Creates deep copy of Playground
+     * @return Copy of current instance
+     */
+    public Playground clone() {
+        return new Playground(this);
+    }
+
+    /**
+     * Creates map
+     * @param height Size of the map
+     */
+    private void makeMap(int height) {
         map = new Tile[height][height];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map.length; j++) {
@@ -38,7 +82,7 @@ public class Playground implements Cloneable {
 
     @org.jetbrains.annotations.Contract(pure = true)
     private int getNumberOfObstacles() {
-        return Math.round((size * size) * percentageOfObstacles);
+        return Math.round((size * size) * (float)percentageOfObstacles);
     }
 
     /**
@@ -57,7 +101,7 @@ public class Playground implements Cloneable {
     /**
      * Fills map with randomly generated obstacles
      */
-    public void addObstacles() {
+    private void addObstacles() {
         obstacles = new Obstacle[getNumberOfObstacles()];
         LinkedList<Integer> freeSpots = new LinkedList<Integer>(); //Maybe hash table would be faster
 
@@ -79,10 +123,6 @@ public class Playground implements Cloneable {
             map[row][column].take();
             obstacles[i] = new Obstacle(column, row);
         }
-    }
-
-    public void loadObstacles(Obstacle[] obstacles) {
-        this.obstacles = obstacles;
     }
 
     /**
