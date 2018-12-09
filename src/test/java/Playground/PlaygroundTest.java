@@ -139,4 +139,42 @@ public class PlaygroundTest {
         if (playground.take(0, 2, 6, 2)) //Again wrapped vertical tile
             fail();
     }
+
+    /**
+     * Checks if map is copied in clone()
+     */
+    @Test
+    public void cloneTestPuttingBlocks() {
+        Playground orginal = new Playground(5, 0.0);
+
+        //Place two blocks on empty fields
+        if (!orginal.take(1,1,1,2))
+            fail();
+        if (!orginal.take(1,4,2,4))
+            fail();
+
+        Playground clone = orginal.clone();
+
+        //Try to place block on empty spot
+        if (!clone.take(0,1,4,1))
+            fail();
+        //Try to place block on taken spot
+        if (clone.take(1,1,1,2))
+            fail();
+    }
+
+    /**
+     * Checks if obstacles are copied in clone()
+     */
+    @Test
+    public void cloneTestObstaclesCopy() {
+        Playground orginal = new Playground(7);
+        String orginalObstacles = orginal.printObstacles();
+
+        Playground clone = orginal.clone();
+        String clonedObstacles = clone.printObstacles();
+
+        if (!orginalObstacles.equals(clonedObstacles))
+            fail();
+    }
 }
