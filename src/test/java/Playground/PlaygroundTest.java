@@ -19,7 +19,7 @@ public class PlaygroundTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void makeMap() {
+    public void illegalMapSize() {
         int temporaryHeight = 20;
         new Playground(temporaryHeight);
     }
@@ -40,7 +40,7 @@ public class PlaygroundTest {
     }
 
     @Test
-    public void addObstaclesPreviousTest() {
+    public void validateObstaclesPreviousTest() {
         int width = tested.getMap().length;
         Tile[][] map = tested.getMap();
         int numberOfObstacles = Math.round((width * width) * (float)tested.getPercentageOfObstacles());
@@ -60,14 +60,16 @@ public class PlaygroundTest {
 
     @Test
     public void validateTile() {
-        Tile[][] map = tested.getMap();
+        Playground playground = new Playground(expectedHeight, 0.0); //This test assumes that there are no obstacles
+
+        Tile[][] map = playground.getMap();
         map[0][0].take();
         map[0][1].take();
 
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //
 
-        boolean result = tested.take(y1, x1, y2, x2);
+        boolean result = playground.take(y1, x1, y2, x2);
 
         if (!result) fail("Correct tile is considered wrong");
 
@@ -75,14 +77,14 @@ public class PlaygroundTest {
         y1 = 0; // Incorrect coordinates of a new tile
         x2 = 1;
         y2 = 0;
-        result = tested.take(y1, x1, y2, x2);
+        result = playground.take(y1, x1, y2, x2);
 
         if (result) fail("Incorrect tile is considered valid");
 
     }
 
     @Test
-    public void addObstacles() {
+    public void validateObstacles() {
         int mapSize = 5;
         double percentageOfObstacles = 0.1;
         Playground playground = new Playground(mapSize, percentageOfObstacles);
@@ -168,13 +170,13 @@ public class PlaygroundTest {
      */
     @Test
     public void cloneTestObstaclesCopy() {
-        Playground orginal = new Playground(7);
-        String orginalObstacles = orginal.printObstacles();
+        Playground original = new Playground(7);
+        String originalObstacles = original.printObstacles();
 
-        Playground clone = orginal.clone();
+        Playground clone = original.clone();
         String clonedObstacles = clone.printObstacles();
 
-        if (!orginalObstacles.equals(clonedObstacles))
+        if (!originalObstacles.equals(clonedObstacles))
             fail();
     }
 }
