@@ -32,6 +32,14 @@ public class PlaygroundTest {
     }
 
     @Test
+    public void zeroObstaclesTest() {
+        Playground playground = new Playground(7, 0.0);
+
+        if (!playground.printObstacles().equals(""))
+            fail();
+    }
+
+    @Test
     public void addObstaclesPreviousTest() {
         int width = tested.getMap().length;
         Tile[][] map = tested.getMap();
