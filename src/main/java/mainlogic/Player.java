@@ -1,4 +1,4 @@
-package MainLogic;
+package mainlogic;
 
 public class Player {
     private String alias;

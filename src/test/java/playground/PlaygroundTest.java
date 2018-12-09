@@ -1,7 +1,10 @@
-package Playground;
+package playground;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.fail;
 
@@ -30,7 +33,7 @@ public class PlaygroundTest {
     }
 
     @Test
-    public void addObstacles() {
+    public void addObstaclesPreviousTest() {
         tested.makeMap(expectedHeight);
         tested.addObstacles();
         int width = tested.getMap().length;
@@ -54,13 +57,13 @@ public class PlaygroundTest {
     public void validateTile() {
         tested.makeMap(expectedHeight);
         Tile[][] map = tested.getMap();
-        map[0][0].taken();
-        map[0][1].taken();
+        map[0][0].take();
+        map[0][1].take();
 
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //
 
-        boolean result = tested.validateTileAndTake(y1, x1, y2, x2);
+        boolean result = tested.take(y1, x1, y2, x2);
 
         if (!result) fail("Correct tile is considered wrong");
 
@@ -68,9 +71,40 @@ public class PlaygroundTest {
         y1 = 0; // Incorrect coordinates of a new tile
         x2 = 1;
         y2 = 0;
-        result = tested.validateTileAndTake(y1, x1, y2, x2);
+        result = tested.take(y1, x1, y2, x2);
 
         if (result) fail("Incorrect tile is considered valid");
 
+    }
+
+    @Test
+    public void addObstacles() {
+        Playground playground = new Playground();
+
+        int mapSize = 5;
+        playground.makeMap(mapSize);
+        playground.addObstacles();
+
+        int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
+        String result = playground.printObstacles();
+
+        Pattern pattern = Pattern.compile("\\{\\d+;\\d+\\}"); //Pattern for single obstacle
+
+        Matcher matcher = pattern.matcher(result);
+        int count = 0;
+        while (matcher.find())
+            count++;
+        if (count != numberOfObstacles)
+            fail();
+
+
+        Obstacle[] testObstacles = {new Obstacle(1, 2), new Obstacle(17, 4), new Obstacle(3, 8)};
+        String expectedResult = "{1;2},{17;4},{3;8}";
+
+        playground.loadObstacles(testObstacles);
+        if (!playground.printObstacles().equals(expectedResult))
+            fail();
+
+        //System.out.println(playground.printObstacles());
     }
 }

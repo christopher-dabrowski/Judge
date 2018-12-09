@@ -1,6 +1,6 @@
-package Communication;
+package communication;
 
-import MainLogic.Player;
+import mainlogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,6 @@ public class MessengerTest {
     private Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
     private Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
     private Messenger messenger = new Messenger(playerOne, playerTwo);
-    private final int playGroundsize = 10;
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +23,8 @@ public class MessengerTest {
         messenger.endCommunication();
     }
 
+    //
+//    TODO Find a way to way to test opened conection
     @Test
     public void openCommunication() {
 //        messenger.openCommunication();
@@ -39,16 +40,8 @@ public class MessengerTest {
     @Test
     public void sendPlaygroundSizePlayer1() {
         try {
-            messenger.sendPlaygroundSize(playGroundsize, playerOne);
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void sendPlaygroundSizePlayer2() {
-        try {
-            messenger.sendPlaygroundSize(playGroundsize, playerTwo);
+            int playGroundSize = 10;
+            messenger.send(String.valueOf(playGroundSize), playerOne);
         } catch (Exception e) {
             fail();
         }

@@ -1,4 +1,4 @@
-package Playground;
+package playground;
 
 import lombok.Getter;
 
@@ -6,7 +6,7 @@ public class Tile {
     @Getter
     private boolean taken = false;
 
-    public void taken() {
+    public void take() {
         taken = true;
     }
 

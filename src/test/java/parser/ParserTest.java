@@ -1,6 +1,6 @@
-package Parser;
+package parser;
 
-import MainLogic.Player;
+import mainlogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
