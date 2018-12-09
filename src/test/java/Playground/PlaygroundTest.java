@@ -88,7 +88,7 @@ public class PlaygroundTest {
         int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
         String result = playground.printObstacles();
 
-        Pattern pattern = Pattern.compile("\\{\\d+;\\d+\\}"); //Pattern for single obstacle
+        Pattern pattern = Pattern.compile("\\{\\d+;\\d+}"); //Pattern for single obstacle
 
         Matcher matcher = pattern.matcher(result);
         int count = 0;
@@ -106,5 +106,36 @@ public class PlaygroundTest {
             fail();
 
         //System.out.println(playground.printObstacles());
+    }
+
+    @Test
+    public void take() {
+        Playground playground = new Playground();
+        playground.makeMap(7);
+
+        if (playground.take(0, 0, 6, 6)) //Corner invalid tile
+            fail();
+        if (playground.take(0, 6, 6, 0)) //Corner invalid tile
+            fail();
+
+        if (!playground.take(2, 1, 2, 2)) //Normal horizontal tile
+            fail();
+        if (!playground.take(0, 4, 1, 4)) //Normal vertical tile
+            fail();
+
+        if (!playground.take(0, 0, 0, 6)) //Wrapped horizontal tile
+            fail();
+        if (!playground.take(0, 2, 6, 2)) //Wrapped vertical tile
+            fail();
+
+        if (playground.take(2, 1, 2, 2)) //Again normal horizontal tile
+            fail();
+        if (playground.take(0, 4, 1, 4)) //Again normal vertical tile
+            fail();
+
+        if (playground.take(0, 0, 0, 6)) //Again wrapped horizontal tile
+            fail();
+        if (playground.take(0, 2, 6, 2)) //Again wrapped vertical tile
+            fail();
     }
 }
