@@ -2,6 +2,8 @@ package Logger;
 
 import FileManager.FileManager;
 import Game.Game;
+import Playground.Block;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,6 +42,16 @@ public class Logger {
         output.write("Player 2: " + game.getPlayerTwo().getAlias() + "\n");
 
         output.write("Moves:\n");
+    }
+
+    public void logMove(Block blockPlaced) throws IOException {
+        output.write(blockPlaced.toString() + "\n");
+    }
+
+    public void logMove(int y1, int x1, int y2, int x2) throws IOException {
+        Block blockPlaced = new Block(y1, x1, y2, x2);
+
+        output.write(blockPlaced.toString() + "\n");
     }
 
     /**
