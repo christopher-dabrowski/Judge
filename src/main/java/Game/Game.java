@@ -1,15 +1,14 @@
 package Game;
 
 import Communication.Messenger;
+import Logger.Logger;
 import MainLogic.Player;
 import Playground.Playground;
-import Logger.Logger;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class Game {
@@ -20,6 +19,7 @@ public class Game {
     @Getter
     private Player playerTwo;
     @NonNull
+    @Getter
     private Playground playground;
 
     private Messenger messenger;
@@ -28,7 +28,7 @@ public class Game {
     //TODO add logging moves
     //TODO consider caching the answer
     //TODO add endCommunication method in order to save CPU
-    public GameResult play () throws IOException {
+    public GameResult play() {
         messenger = new Messenger(playerOne, playerTwo);
         long timeTaken;
         try {
@@ -38,7 +38,11 @@ public class Game {
         }
         //TODO find a way to avoid mistaking players
 
-        Logger logger = new Logger(this);
+        try {
+            Logger logger = new Logger(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Send basic intel about
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
