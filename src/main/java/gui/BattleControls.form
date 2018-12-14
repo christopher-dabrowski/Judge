@@ -137,6 +137,8 @@
         <properties>
           <background color="-12367798"/>
           <foreground color="-16777216"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
           <opaque value="true"/>
           <text value="Obstacles"/>
         </properties>
