@@ -136,6 +136,7 @@
         </constraints>
         <properties>
           <background color="-12367798"/>
+          <foreground color="-16777216"/>
           <opaque value="true"/>
           <text value="Obstacles"/>
         </properties>
@@ -147,6 +148,7 @@
         </constraints>
         <properties>
           <background color="-12367798"/>
+          <foreground color="-13720286"/>
           <horizontalAlignment value="0"/>
           <opaque value="true"/>
           <text value="Player1"/>
@@ -159,6 +161,7 @@
         </constraints>
         <properties>
           <background color="-12367798"/>
+          <foreground color="-5954022"/>
           <horizontalAlignment value="0"/>
           <opaque value="true"/>
           <text value="Player0"/>
