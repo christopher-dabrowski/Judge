@@ -10,6 +10,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Class for logging game between two players while it's being played
+ *
+ * Example log file:
+ * File name: 123456VS987654.log
+ * File content:
+ * Board size: 15
+ * Obstacles: {1;2},{3;4},{5,7}
+ * Player 1: ToBolekxx
+ * Player 2: SuperGracz232
+ * Moves:
+ * {7;8},{7;8}
+ * {0,0},{1;0}
+ */
 public class Logger {
     private static String LOGS_FOLDER_NAME = "game_logs";
 
