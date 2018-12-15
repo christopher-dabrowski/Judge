@@ -9,8 +9,8 @@ import static org.junit.Assert.fail;
 
 public class MessengerTest {
 
-    private Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-    private Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+    private Player playerOne = new Player("123456","One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+    private Player playerTwo = new Player("987654","Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
     private Messenger messenger = new Messenger(playerOne, playerTwo);
 
     @Before

@@ -1,9 +1,12 @@
 package game;
 
 import communication.Messenger;
+import logger.Logger;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import mainlogic.Player;
+import playground.Block;
 import playground.Playground;
 
 import java.io.IOException;
@@ -11,55 +14,82 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Game {
     @NonNull
+    @Getter
     private Player playerOne;
     @NonNull
+    @Getter
     private Player playerTwo;
     @NonNull
+    @Getter
     private Playground playground;
+
+    private Logger logger;
 
     private Messenger messenger;
 
     //TODO add option of time out
     //TODO add logging moves
     //TODO consider caching the answer
-    private GameResult innerPlay() {
-        long timeTaken;
+    private GameResult innerPlay() throws IOException{
         //TODO find a way to avoid mistaking players
         //TODO make this function smaller
         //Send basic intel
+        long timeTaken;
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
-//        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
+        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+            logger.logCommunicationState(false);
             return new GameResult(playerTwo, Setteling.CLASSIC);
+        }
+
+        logger.logCommunicationState(true);
 
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
-//        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
+        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+            logger.logCommunicationState(false); //Second made mistake
             return new GameResult(playerOne, Setteling.CLASSIC);
+        }
+
+        logger.logCommunicationState(true);
 
         //Send obstacles
         timeTaken = oneMove(playground.printObstacles(), playerOne);
-//        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
+        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+            logger.logCommunicationState(false);
             return new GameResult(playerTwo, Setteling.CLASSIC);
+        }
+
+        logger.logCommunicationState(true);
 
         timeTaken = oneMove(playground.printObstacles(), playerTwo);
-//        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
+        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+            logger.logCommunicationState(false);
             return new GameResult(playerOne, Setteling.CLASSIC);
+        }
+
+        logger.logCommunicationState(true);
         //Start game
         while (true) {
             timeTaken = oneMove("START", playerOne);
             String answer = messenger.getAnswer();
-//            if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
-            if (isWrong(answer, MessageType.MOVE))
+            if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+            if (isWrong(answer, MessageType.MOVE)) {
+                logger.logPlayerError();
                 return new GameResult(playerTwo, Setteling.CLASSIC);
+            }
+            logger.logMove(new Block(answer));
 
             timeTaken = oneMove(answer, playerTwo);
             answer = messenger.getAnswer();
-//            if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
-            if (isWrong(answer, MessageType.MOVE))
+            if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+            if (isWrong(answer, MessageType.MOVE)) {
+                logger.logPlayerError();
                 return new GameResult(playerOne, Setteling.CLASSIC);
+            }
+            logger.logMove( new Block(answer));
         }
     }
 
@@ -67,12 +97,14 @@ public class Game {
         messenger = new Messenger(playerOne, playerTwo);
         try {
             messenger.openCommunication();
+            logger = new Logger(this);
+            GameResult tmp = this.innerPlay();
+            messenger.endCommunication();
+            return tmp;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        GameResult tmp = this.innerPlay();
-        messenger.endCommunication();
-        return tmp;
+        return null;
     }
 
     /*
@@ -85,9 +117,9 @@ public class Game {
         Thread.yield();
         while (!messenger.isDelivered()) {
             Thread.yield();
-//            if (timeTaken > 500) { //Max time for one move
-//                return timeTaken;
-//            }
+            if (timeTaken > 500) { //Max time for one move
+                return timeTaken;
+            }
             timeTaken = System.currentTimeMillis() - startTime;
             Thread.yield();
         }
@@ -99,11 +131,12 @@ public class Game {
     TODO make distinguishable case when time out
     */
     private boolean isWrong(String answer, MessageType messageType) {
+        System.out.println(messageType);
         switch (messageType) {
             case MOVE:
-                String[] tokens = answer.split("[{},;]+");
-                if (tokens.length != 5) return true;
-                return !playground.take(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), Integer.valueOf(tokens[4]));
+                String[] tokens = answer.split("[{},;]");
+                if (tokens.length != 4) return true;
+                return !playground.take(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
             case INFORMATION:
                 return !answer.equals("ok");
         }

@@ -9,9 +9,9 @@ import static org.junit.Assert.fail;
 
 public class GameTest {
 
-    private Player playerOne = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-    private Player playerTwo = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
-    private Playground playground = new Playground(13, 1.0);
+    private Player playerOne = new Player("123456","One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+    private Player playerTwo = new Player("987654","Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+    private Playground playground = new Playground(21);
     private Game game;
 
     @Before
@@ -21,9 +21,14 @@ public class GameTest {
 
     @Test
     public void play() {
-        GameResult winner = game.play();
-        System.out.println(winner.getPlayer().toString());
-        if (winner.getPlayer() != playerOne)
+        try {
+            game.GameResult winner = game.play();
+            System.out.println(winner.toString());
+            if (winner.getPlayer() != playerOne)
+                fail();
+        }
+        catch (Exception e) {
             fail();
+        }
     }
 }

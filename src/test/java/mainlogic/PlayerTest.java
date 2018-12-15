@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 public class PlayerTest {
 
     private Player player;
+    private String indexNumber;
     private String alias;
     private String name;
     private String surname;
@@ -15,12 +16,13 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
+        indexNumber = "123456";
         alias = "Jee";
         name = "Jan";
         surname = "Kowalski";
         lunchCommand = "super_program.exe";
 
-        player = new Player(alias, name, surname, lunchCommand);
+        player = new Player(indexNumber, alias, name, surname, lunchCommand);
     }
 
     @Test

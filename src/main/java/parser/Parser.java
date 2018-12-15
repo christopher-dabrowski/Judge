@@ -2,6 +2,7 @@ package parser;
 
 import mainlogic.Player;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
@@ -11,7 +12,9 @@ public class Parser {
     public static Player readPlayerInfo(String fileName) throws FileNotFoundException, ParseException {
 
         Scanner input = new Scanner(new FileReader(fileName));
-        String alias, name, surname, lunchCommand;
+        String indexNumber, alias, name, surname, lunchCommand;
+
+        indexNumber = new File( new File(fileName).getParent() ).getName(); //Get name of parent of info.txt file
 
         if (input.hasNext())
             alias = input.nextLine();
@@ -38,6 +41,6 @@ public class Parser {
         } else throw new ParseException("No lunch command", 3);
 
         input.close();
-        return new Player(alias, name, surname, lunchCommand);
+        return new Player(indexNumber, alias, name, surname, lunchCommand);
     }
 }
