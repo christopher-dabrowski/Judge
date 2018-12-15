@@ -21,20 +21,18 @@ public class Messenger {
     private String toDeliver;
     private Player addressee;
     private boolean deliver = false;
-    private Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            while (true) {
-                if (kill) {
-                    return;
-                }
-                try {
-                    innerThreadSetup();
-                } catch (IOException e) {
-                    return;
-                }
-                Thread.yield();
+    private Thread thread = new Thread(() -> {
+        while (true) {
+            if (kill) {
+                return;
             }
+            try {
+                innerThreadSetup();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            Thread.yield();
         }
     });
 
@@ -52,10 +50,25 @@ public class Messenger {
     private synchronized void innerThreadSetup() throws IOException {
         if (deliver) {
             answer = innerSend(toDeliver, addressee);
-            System.out.println("\t" + toDeliver);
             isDelivered = true;
             deliver = false;
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private String innerSend(String n, Player player) throws IOException {
+        ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
+        thisExtendedPlayer.playerPrintStream.println(n);
+        char[] answer = new char[16];
+        thisExtendedPlayer.playerOutputStream.read(answer, 0, answer.length);
+
+        StringBuilder stringBuilder = new StringBuilder(17);
+        for (char c : answer) {
+            if (c != 0 && c != '\r' && c != '\n')
+                stringBuilder.append(c);
+        }
+        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
     }
 
     public void openCommunication() throws IOException {
@@ -79,18 +92,17 @@ public class Messenger {
         deliver = true;
     }
 
-    private String innerSend(String n, Player player) throws IOException {
-        ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
-        thisExtendedPlayer.playerPrintStream.println(n);
-        char[] answer = new char[4];
-        if (thisExtendedPlayer.playerOutputStream.read(answer, 0, answer.length) != answer.length)
-            throw new IOException();
-        return answer[0] + "" + answer[1];
-    }
-
     public void endCommunication() {
         extendedPlayer1.playerProcess.destroy();
         extendedPlayer2.playerProcess.destroy();
+        try {
+            extendedPlayer1.playerOutputStream.close();
+            extendedPlayer1.playerPrintStream.close();
+            extendedPlayer2.playerOutputStream.close();
+            extendedPlayer2.playerPrintStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         extendedPlayer1 = null;
         extendedPlayer2 = null;
         kill = true;

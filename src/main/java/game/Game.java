@@ -28,36 +28,36 @@ public class Game {
         //TODO make this function smaller
         //Send basic intel
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
-        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+//        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
         if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
             return new GameResult(playerTwo, Setteling.CLASSIC);
 
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
-        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+//        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
         if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
 
         //Send obstacles
         timeTaken = oneMove(playground.printObstacles(), playerOne);
-        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+//        if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
         if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
             return new GameResult(playerTwo, Setteling.CLASSIC);
 
         timeTaken = oneMove(playground.printObstacles(), playerTwo);
-        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+//        if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
         if (isWrong(messenger.getAnswer(), MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
         //Start game
         while (true) {
             timeTaken = oneMove("START", playerOne);
             String answer = messenger.getAnswer();
-            if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
+//            if (timeTaken > 500) return new GameResult(playerTwo, Setteling.TIMEOUT);
             if (isWrong(answer, MessageType.MOVE))
                 return new GameResult(playerTwo, Setteling.CLASSIC);
 
             timeTaken = oneMove(answer, playerTwo);
             answer = messenger.getAnswer();
-            if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
+//            if (timeTaken > 500) return new GameResult(playerOne, Setteling.TIMEOUT);
             if (isWrong(answer, MessageType.MOVE))
                 return new GameResult(playerOne, Setteling.CLASSIC);
         }
@@ -85,9 +85,9 @@ public class Game {
         Thread.yield();
         while (!messenger.isDelivered()) {
             Thread.yield();
-            if (timeTaken > 500) { //Max time for one move
-                return timeTaken;
-            }
+//            if (timeTaken > 500) { //Max time for one move
+//                return timeTaken;
+//            }
             timeTaken = System.currentTimeMillis() - startTime;
             Thread.yield();
         }
@@ -99,12 +99,11 @@ public class Game {
     TODO make distinguishable case when time out
     */
     private boolean isWrong(String answer, MessageType messageType) {
-        System.out.println(messageType);
         switch (messageType) {
             case MOVE:
-                String[] tokens = answer.split("[{},;]");
-                if (tokens.length != 4) return true;
-                return !playground.take(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
+                String[] tokens = answer.split("[{},;]+");
+                if (tokens.length != 5) return true;
+                return !playground.take(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), Integer.valueOf(tokens[4]));
             case INFORMATION:
                 return !answer.equals("ok");
         }
