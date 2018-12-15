@@ -16,7 +16,6 @@ public class GameTest {
 
     @Before
     public void setUp() {
-        playground.makeMap(13);
         game = new Game(playerOne, playerTwo, playground);
     }
 

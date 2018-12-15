@@ -15,30 +15,35 @@ public class PlaygroundTest {
 
     @Before
     public void setUp() {
-        tested = new Playground();
+        tested = new Playground(expectedHeight);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void makeMap() {
+    public void illegalMapSize() {
         int temporaryHeight = 20;
-        tested.makeMap(temporaryHeight);
+        new Playground(temporaryHeight);
     }
 
     @Test
     public void makeMap1() {
         if (expectedHeight % 2 == 0) fail();
-        tested.makeMap(expectedHeight);
         int width = tested.getMap().length;
         if (width <= 0 || width % 2 == 0) fail();
     }
 
     @Test
-    public void addObstaclesPreviousTest() {
-        tested.makeMap(expectedHeight);
-        tested.addObstacles();
+    public void zeroObstaclesTest() {
+        Playground playground = new Playground(7, 0.0);
+
+        if (!playground.printObstacles().equals(""))
+            fail();
+    }
+
+    @Test
+    public void validateObstaclesPreviousTest() {
         int width = tested.getMap().length;
         Tile[][] map = tested.getMap();
-        int numberOfObstacles = Math.round((width * width) * tested.getPercentageOfObstacles());
+        int numberOfObstacles = Math.round((width * width) * (float)tested.getPercentageOfObstacles());
         if (numberOfObstacles <= 0) fail();
 
         int actualNumberOfObstacles = 0;
@@ -55,15 +60,16 @@ public class PlaygroundTest {
 
     @Test
     public void validateTile() {
-        tested.makeMap(expectedHeight);
-        Tile[][] map = tested.getMap();
+        Playground playground = new Playground(expectedHeight, 0.0); //This test assumes that there are no obstacles
+
+        Tile[][] map = playground.getMap();
         map[0][0].take();
         map[0][1].take();
 
         int x1 = 1, y1 = 1; // Correct coordinates of a new tile
         int x2 = 0, y2 = 1; //
 
-        boolean result = tested.take(y1, x1, y2, x2);
+        boolean result = playground.take(y1, x1, y2, x2);
 
         if (!result) fail("Correct tile is considered wrong");
 
@@ -71,21 +77,19 @@ public class PlaygroundTest {
         y1 = 0; // Incorrect coordinates of a new tile
         x2 = 1;
         y2 = 0;
-        result = tested.take(y1, x1, y2, x2);
+        result = playground.take(y1, x1, y2, x2);
 
         if (result) fail("Incorrect tile is considered valid");
 
     }
 
     @Test
-    public void addObstacles() {
-        Playground playground = new Playground();
-
+    public void validateObstacles() {
         int mapSize = 5;
-        playground.makeMap(mapSize);
-        playground.addObstacles();
+        double percentageOfObstacles = 0.1;
+        Playground playground = new Playground(mapSize, percentageOfObstacles);
 
-        int numberOfObstacles = Math.round((mapSize * mapSize) * playground.getPercentageOfObstacles());
+        int numberOfObstacles = Math.round((mapSize * mapSize) * (float)percentageOfObstacles);
         String result = playground.printObstacles();
 
         Pattern pattern = Pattern.compile("\\{\\d+;\\d+}"); //Pattern for single obstacle
@@ -98,20 +102,19 @@ public class PlaygroundTest {
             fail();
 
 
-        Obstacle[] testObstacles = {new Obstacle(1, 2), new Obstacle(17, 4), new Obstacle(3, 8)};
-        String expectedResult = "{1;2},{17;4},{3;8}";
-
-        playground.loadObstacles(testObstacles);
-        if (!playground.printObstacles().equals(expectedResult))
-            fail();
+//        Obstacle[] testObstacles = {new Obstacle(1, 2), new Obstacle(17, 4), new Obstacle(3, 8)};
+//        String expectedResult = "{1;2},{17;4},{3;8}";
+//
+//        playground.loadObstacles(testObstacles);
+//        if (!playground.printObstacles().equals(expectedResult))
+//            fail();
 
         //System.out.println(playground.printObstacles());
     }
 
     @Test
     public void take() {
-        Playground playground = new Playground();
-        playground.makeMap(7);
+        Playground playground = new Playground(7, 0.0);
 
         if (playground.take(0, 0, 6, 6)) //Corner invalid tile
             fail();
@@ -136,6 +139,44 @@ public class PlaygroundTest {
         if (playground.take(0, 0, 0, 6)) //Again wrapped horizontal tile
             fail();
         if (playground.take(0, 2, 6, 2)) //Again wrapped vertical tile
+            fail();
+    }
+
+    /**
+     * Checks if map is copied in clone()
+     */
+    @Test
+    public void cloneTestPuttingBlocks() {
+        Playground orginal = new Playground(5, 0.0);
+
+        //Place two blocks on empty fields
+        if (!orginal.take(1,1,1,2))
+            fail();
+        if (!orginal.take(1,4,2,4))
+            fail();
+
+        Playground clone = orginal.clone();
+
+        //Try to place block on empty spot
+        if (!clone.take(0,1,4,1))
+            fail();
+        //Try to place block on taken spot
+        if (clone.take(1,1,1,2))
+            fail();
+    }
+
+    /**
+     * Checks if obstacles are copied in clone()
+     */
+    @Test
+    public void cloneTestObstaclesCopy() {
+        Playground original = new Playground(7);
+        String originalObstacles = original.printObstacles();
+
+        Playground clone = original.clone();
+        String clonedObstacles = clone.printObstacles();
+
+        if (!originalObstacles.equals(clonedObstacles))
             fail();
     }
 }
