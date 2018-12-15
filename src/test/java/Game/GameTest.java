@@ -22,9 +22,14 @@ public class GameTest {
 
     @Test
     public void play() {
-        GameResult winner = game.play();
-        System.out.println(winner.toString());
-        if (winner.getPlayer() != playerOne)
+        try {
+            GameResult winner = game.play();
+            System.out.println(winner.toString());
+            if (winner.getPlayer() != playerOne)
+                fail();
+        }
+        catch (Exception e) {
             fail();
+        }
     }
 }

@@ -28,31 +28,36 @@ public class Game {
     //TODO add logging moves
     //TODO consider caching the answer
     //TODO add endCommunication method in order to save CPU
-    public GameResult play() {
+    public GameResult play() throws IOException {
         messenger = new Messenger(playerOne, playerTwo);
         long timeTaken;
         try {
             messenger.openCommunication();
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         }
         //TODO find a way to avoid mistaking players
 
+        Logger logger;
         try {
-            Logger logger = new Logger(this);
+            logger = new Logger(this);
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         }
 
         //Send basic intel about
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
-        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
+        if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION)) {
+            logger.logCommunicationState(false);
             return new GameResult(playerTwo, Setteling.CLASSIC);
+        }
 
         timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
-//Send obstacles
+        //Send obstacles
         timeTaken = oneMove(playground.printObstacles(), playerOne);
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerTwo, Setteling.CLASSIC);
@@ -60,7 +65,7 @@ public class Game {
         timeTaken = oneMove(playground.printObstacles(), playerTwo);
         if (isWrong(messenger.getAnswer(), timeTaken, MessageType.INFORMATION))
             return new GameResult(playerOne, Setteling.CLASSIC);
-//Start game
+        //Start game
         while (true) {
             timeTaken = oneMove("START", playerOne);
             String answer = messenger.getAnswer();
