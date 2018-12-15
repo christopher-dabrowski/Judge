@@ -15,12 +15,7 @@ public class BattlePreview extends JPanel {
         //Until then its hardcoded TODO TODO TODO
         battleImage = new BattleImage(new Dimension(1000, 500), 13);
         this.setPreferredSize(new Dimension(battleImage.getBufferedImage().getWidth(), battleImage.getBufferedImage().getHeight()));
-        for (int i = 0; i < 13; i++)
-            battleImage.take(i, i, Color.RED);
-        for (int i = 0; i < 13; i++)
-            battleImage.take(i, 0, Color.GRAY);
-        for (int i = 0; i < 13; i++)
-            battleImage.take(0, i, Color.BLUE);
+        //TODO Delete latter
     }
 
     public static void main(String... args) {

@@ -15,8 +15,10 @@ public class BattleControls {
     private JLabel obstaclesLabel;
     private JLabel player0Label;
 
-    public BattleControls() {
+    private BattlePreview battlePreview;
 
+    public BattleControls(BattlePreview battlePreview) {
+        this.battlePreview = battlePreview;
         playButton.addActionListener(new ActionListener() {
             //            TODO Make it work
             @Override
@@ -50,17 +52,8 @@ public class BattleControls {
         });
     }
 
-    public static void main(String... args) {
-        JFrame jFrame = new JFrame("TEST" + BattleControls.class);
-        BattleControls battleControls = new BattleControls();
-        jFrame.setContentPane(battleControls.BattleControlsPanel);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.pack();
-        jFrame.setVisible(true);
-    }
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        player1Label = new JLabel("Player");
+//        player1Label = new JLabel("Player");
     }
 }
