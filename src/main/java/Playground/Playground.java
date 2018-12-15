@@ -1,7 +1,6 @@
-package Playground;
+package playground;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -18,13 +17,14 @@ public class Playground implements Cloneable {
     /**
      * Creates playground with custom amount of obstacles
      * Mostly for test purposes
-     * @param size Size of game board
+     *
+     * @param size                  Size of game board
      * @param percentageOfObstacles
      * @throws IllegalArgumentException
      */
     public Playground(int size, double percentageOfObstacles) throws IllegalArgumentException {
         if (size <= 0)
-            throw  new IllegalArgumentException("Size must be greater then 0");
+            throw new IllegalArgumentException("Size must be greater then 0");
         if (size % 2 == 0)
             throw new IllegalArgumentException("Size must be odd");
         if (percentageOfObstacles < 0.0 || percentageOfObstacles > 1.0)
@@ -39,6 +39,7 @@ public class Playground implements Cloneable {
 
     /**
      * Creates playground with 10% obstacles
+     *
      * @param size Size of game board
      * @throws IllegalArgumentException
      */
@@ -49,10 +50,10 @@ public class Playground implements Cloneable {
     /**
      * Copy constructor
      * Creates deep copy of Playground
+     *
      * @param playground model for copy
      */
-    public Playground(Playground playground)
-    {
+    public Playground(Playground playground) {
         this.map = playground.map.clone();
         this.size = playground.size;
         this.obstacles = playground.obstacles.clone();
@@ -61,6 +62,7 @@ public class Playground implements Cloneable {
 
     /**
      * Creates deep copy of Playground
+     *
      * @return Copy of current instance
      */
     public Playground clone() {
@@ -87,13 +89,14 @@ public class Playground implements Cloneable {
 
     /**
      * Generate list of obstacles on the map
+     *
      * @return List of obstacles formatted for communication
      */
     public String printObstacles() {
         StringBuilder resultBuilder = new StringBuilder();
 
-        for (int i=0; i<obstacles.length; i++)
-            resultBuilder.append(obstacles[i].toString() + (i != obstacles.length-1 ? "," : ""));
+        for (int i = 0; i < obstacles.length; i++)
+            resultBuilder.append(obstacles[i].toString() + (i != obstacles.length - 1 ? "," : ""));
 
         return resultBuilder.toString();
     }
@@ -105,20 +108,20 @@ public class Playground implements Cloneable {
         obstacles = new Obstacle[getNumberOfObstacles()];
         LinkedList<Integer> freeSpots = new LinkedList<Integer>(); //Maybe hash table would be faster
 
-        for (int i=0; i<size*size; i++)
+        for (int i = 0; i < size * size; i++)
             freeSpots.add(new Integer(i)); //Project two dimensional array to one dimension
 
         Random random = new Random();
 
 
-        for (int i=0; i<getNumberOfObstacles(); i++) { //Generate obstacles
+        for (int i = 0; i < getNumberOfObstacles(); i++) { //Generate obstacles
             int chosen = random.nextInt(freeSpots.size()); //Pick free spot
             int pickedFiled = freeSpots.get(chosen);
 
             freeSpots.remove(chosen); //It's no longer free
 
-            int row = pickedFiled/size;
-            int column = pickedFiled - row*size;
+            int row = pickedFiled / size;
+            int column = pickedFiled - row * size;
 
             map[row][column].take();
             obstacles[i] = new Obstacle(column, row);
