@@ -1,4 +1,4 @@
-package Playground;
+package playground;
 
 import lombok.Getter;
 import javafx.util.Pair;

@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 public enum Setteling {
     TIMEOUT, CLASSIC

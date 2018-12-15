@@ -1,9 +1,8 @@
-package Logger;
+package logger;
 
-import FileManager.FileManager;
-import Game.Game;
-import Playground.Block;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import filemanager.FileManager;
+import game.Game;
+import playground.Block;
 
 import java.io.BufferedWriter;
 import java.io.File;

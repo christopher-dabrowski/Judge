@@ -1,7 +1,7 @@
-package FileManager;
+package filemanager;
 
-import MainLogic.Player;
-import Parser.Parser;
+import mainlogic.Player;
+import parser.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;

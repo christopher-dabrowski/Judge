@@ -1,4 +1,4 @@
-package MainLogic;
+package mainlogic;
 
 import lombok.Getter;
 

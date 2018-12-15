@@ -1,9 +1,9 @@
-package GameQueuing;
+package gamequeuing;
 
-import MainLogic.Player;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import mainlogic.Player;
 
 @RequiredArgsConstructor
 public class GameStatistics {

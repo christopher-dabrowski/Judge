@@ -1,6 +1,6 @@
-package FileManager;
+package filemanager;
 
-import MainLogic.Player;
+import mainlogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class FileManagerTest {
     public void importPlayers() {
         try {
             ArrayList<String> errors = new ArrayList<String>();
-            ArrayList<Player> players = FileManager.importPlayers(errors);
+            ArrayList<Player> players = filemanager.importPlayers(errors);
 
             for (Player player : players) {
                 System.out.println(player);
@@ -45,7 +45,7 @@ public class FileManagerTest {
     @Test
     public void getPlayersFolderLocation() {
         try {
-            System.out.println(FileManager.getPlayersFolderLocation());
+            System.out.println(filemanager.getPlayersFolderLocation());
         } catch (IOException e) {
             fail();
         }

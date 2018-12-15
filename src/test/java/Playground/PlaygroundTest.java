@@ -1,4 +1,4 @@
-package Playground;
+package playground;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class PlaygroundTest {
     public void validateObstaclesPreviousTest() {
         int width = tested.getMap().length;
         Tile[][] map = tested.getMap();
-        int numberOfObstacles = Math.round((width * width) * (float)tested.getPercentageOfObstacles());
+        int numberOfObstacles = Math.round((width * width) * (float) tested.getPercentageOfObstacles());
         if (numberOfObstacles <= 0) fail();
 
         int actualNumberOfObstacles = 0;
@@ -89,7 +89,7 @@ public class PlaygroundTest {
         double percentageOfObstacles = 0.1;
         Playground playground = new Playground(mapSize, percentageOfObstacles);
 
-        int numberOfObstacles = Math.round((mapSize * mapSize) * (float)percentageOfObstacles);
+        int numberOfObstacles = Math.round((mapSize * mapSize) * (float) percentageOfObstacles);
         String result = playground.printObstacles();
 
         Pattern pattern = Pattern.compile("\\{\\d+;\\d+}"); //Pattern for single obstacle
@@ -150,18 +150,18 @@ public class PlaygroundTest {
         Playground orginal = new Playground(5, 0.0);
 
         //Place two blocks on empty fields
-        if (!orginal.take(1,1,1,2))
+        if (!orginal.take(1, 1, 1, 2))
             fail();
-        if (!orginal.take(1,4,2,4))
+        if (!orginal.take(1, 4, 2, 4))
             fail();
 
         Playground clone = orginal.clone();
 
         //Try to place block on empty spot
-        if (!clone.take(0,1,4,1))
+        if (!clone.take(0, 1, 4, 1))
             fail();
         //Try to place block on taken spot
-        if (clone.take(1,1,1,2))
+        if (clone.take(1, 1, 1, 2))
             fail();
     }
 

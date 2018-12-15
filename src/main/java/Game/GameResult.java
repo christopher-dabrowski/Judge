@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import MainLogic.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import mainlogic.Player;
 
 @Getter
 @AllArgsConstructor

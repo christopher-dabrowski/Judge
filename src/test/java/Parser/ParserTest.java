@@ -1,6 +1,6 @@
-package Parser;
+package parser;
 
-import MainLogic.Player;
+import mainlogic.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class ParserTest {
         Player player = null;
 
         try {
-            player = Parser.readPlayerInfo(temFileName);
+            player = parser.readPlayerInfo(temFileName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             fail();

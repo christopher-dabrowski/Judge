@@ -1,6 +1,6 @@
-package Parser;
+package parser;
 
-import MainLogic.Player;
+import mainlogic.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;

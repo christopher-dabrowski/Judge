@@ -1,6 +1,6 @@
-package MainLogic;
+package mainlogic;
 
-import Playground.Playground;
+import playground.Playground;
 
 public class Logic {
     private Playground playground;

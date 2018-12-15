@@ -1,12 +1,12 @@
-package GameQueuing;
+package gamequeuing;
 
-import MainLogic.Player;
-import Playground.Playground;
 import game.Game;
 import game.GameResult;
 import game.Setteling;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import mainlogic.Player;
+import playground.Playground;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,20 +22,21 @@ public class GameQueue {
 
     public Map<Player, GameStatistics> morituriTeSalutant() {
         Map<Player, GameStatistics> answer = new HashMap<>(30);
+        for (Player player : playerList) {
+            answer.put(player, new GameStatistics(player));
+        }
         Random rng = new Random();
-        for (int i = 0; i < playerList.size(); i++) {
-            for (int j = i + 1; j < playerList.size(); j++) {
-                Playground playground = new Playground();
+        for (int outer = 0; outer < playerList.size(); outer++) {
+            for (int inner = outer + 1; inner < playerList.size(); inner++) {
                 //TODO Consider moving this to playground constructor
                 int size = rng.nextInt(51 - 13);
-                size = size % 2 == 0 ? size + 1 : size;
+                size = size % 2 == 0 ? size : size + 1;
                 size += 13;
-                playground.makeMap(size);
-                playground.addObstacles();
+                Playground playground = new Playground(size);
                 Playground clone = playground.clone();
                 /*End of concerning code*/
-                resolveOneGame(answer, i, j, playground);
-                resolveOneGame(answer, j, i, clone);
+                resolveOneGame(answer, outer, inner, playground);
+                resolveOneGame(answer, inner, outer, clone);
             }
         }
         return answer;
@@ -44,7 +45,6 @@ public class GameQueue {
     private void resolveOneGame(Map<Player, GameStatistics> map, int first, int second, Playground playground) {
         Game game = new Game(playerList.get(first), playerList.get(second), playground);
         GameResult gameResult = game.play();
-        map.putIfAbsent(gameResult.getPlayer(), new GameStatistics(gameResult.getPlayer()));
         addWinner(map, gameResult);
     }
 

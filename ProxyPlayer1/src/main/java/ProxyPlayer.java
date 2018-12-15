@@ -30,6 +30,6 @@ public class ProxyPlayer {
     }
 
     private static void print(int y1, int x1, int y2, int x2) {
-        System.out.printf("{%d;%d},{%d;%d}", y1, x1, y2, x2);
+        System.out.printf("{%d;%d},{%d;%d}\r\n", y1, x1, y2, x2);
     }
 }

@@ -1,4 +1,4 @@
-package Playground;
+package playground;
 
 import org.junit.Test;
 
