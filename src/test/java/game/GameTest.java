@@ -23,7 +23,6 @@ public class GameTest {
     public void play() {
         try {
             game.GameResult winner = game.play();
-            System.out.println(winner.toString());
             if (winner.getPlayer() != playerOne)
                 fail();
         }

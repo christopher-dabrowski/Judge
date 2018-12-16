@@ -37,7 +37,7 @@ public class ParserTest {
         Player player = null;
 
         try {
-            player = parser.readPlayerInfo(temFileName);
+            player = Parser.readPlayerInfo(temFileName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             fail();

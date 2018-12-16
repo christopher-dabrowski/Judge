@@ -49,7 +49,7 @@ public class Playground implements Cloneable {
 
     /**
      * Copy constructor
-     * Creates deep copy of Playground
+     * Creates deep copy of playground
      *
      * @param playground model for copy
      */
@@ -61,7 +61,7 @@ public class Playground implements Cloneable {
     }
 
     /**
-     * Creates deep copy of Playground
+     * Creates deep copy of playground
      *
      * @return Copy of current instance
      */

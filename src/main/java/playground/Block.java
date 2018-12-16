@@ -1,7 +1,7 @@
 package playground;
 
-import lombok.Getter;
 import javafx.util.Pair;
+import lombok.Getter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

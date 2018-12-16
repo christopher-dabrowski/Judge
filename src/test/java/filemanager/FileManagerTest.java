@@ -25,7 +25,7 @@ public class FileManagerTest {
     public void importPlayers() {
         try {
             ArrayList<String> errors = new ArrayList<String>();
-            ArrayList<Player> players = filemanager.importPlayers(errors);
+            ArrayList<Player> players = FileManager.importPlayers(errors);
 
             for (Player player : players) {
                 System.out.println(player);
@@ -45,7 +45,7 @@ public class FileManagerTest {
     @Test
     public void getPlayersFolderLocation() {
         try {
-            System.out.println(filemanager.getPlayersFolderLocation());
+            System.out.println(FileManager.getPlayersFolderLocation());
         } catch (IOException e) {
             fail();
         }

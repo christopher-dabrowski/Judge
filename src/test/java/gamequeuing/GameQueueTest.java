@@ -18,8 +18,8 @@ public class GameQueueTest {
 
     @Before
     public void setUp() throws Exception {
-        Player one = new Player("One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-        Player two = new Player("Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+        Player one = new Player("123456", "One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+        Player two = new Player("987654", "Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
         playerList = new ArrayList<>(2);
         playerList.add(one);
         playerList.add(two);
