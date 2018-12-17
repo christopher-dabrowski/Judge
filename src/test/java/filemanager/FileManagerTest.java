@@ -7,17 +7,23 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.File;
 
 import static org.junit.Assert.fail;
 
 public class FileManagerTest {
+    private static String tempFolderName = "TEMP";
 
     @Before
     public void setUp() throws Exception {
+        new File(tempFolderName).mkdir();
     }
 
     @After
     public void tearDown() throws Exception {
+
+        File tempFolder = new File(tempFolderName);
+        if (!tempFolder.delete()) fail(); //Wasn't able to delete folder
     }
 
     //ToDo Write solid tests
@@ -40,13 +46,13 @@ public class FileManagerTest {
 
     @Test
     public void getProgramLocation() {
-    }
-
-    @Test
-    public void getPlayersFolderLocation() {
         try {
-            System.out.println(FileManager.getPlayersFolderLocation());
-        } catch (IOException e) {
+            String location = FileManager.getProgramLocation();
+
+            if (!location.matches(".*Judge"))
+                fail();
+        }
+        catch (Exception e) {
             fail();
         }
     }
