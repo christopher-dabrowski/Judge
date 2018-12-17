@@ -14,12 +14,13 @@ import static org.junit.Assert.fail;
 
 public class ParserTest {
     private static String tempFolderName = "TEMP";
-    private static String temFileName = "123456.txt"; //Folder name is players index number
+    private static String tempPlayerFolderName = tempFolderName + "/" + "123456";
+    private static String temFileName = tempPlayerFolderName + "/" + "info.txt"; //Folder name is players index number
 
     @Before
     public void setUp() /*throws Exception*/ {
         new File(tempFolderName).mkdir();
-
+        new File(tempPlayerFolderName).mkdir();
 
         try {
             PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
@@ -32,8 +33,6 @@ public class ParserTest {
         } catch (UnsupportedEncodingException exception) {
             fail();
         }
-
-
     }
 
     @Test
@@ -55,8 +54,10 @@ public class ParserTest {
     @After
     public void tearDown() {
         File tempFile = new File(temFileName);
-
         if (!tempFile.delete()) fail(); //Wasn't able to delete file
+
+        File tempPlayerFolder = new File(tempPlayerFolderName);
+        if (!tempPlayerFolder.delete());
 
         File tempFolder = new File(tempFolderName);
         if (!tempFolder.delete()) fail(); //Wasn't able to delete folder
