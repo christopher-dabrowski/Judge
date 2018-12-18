@@ -39,18 +39,36 @@ public class FileManagerTest {
 
                 String playerInfoFileContent = playerIndexesAndInfoFiles.get(playerIndex);
                 if (playerInfoFileContent != null) {
-                    PrintWriter writer = new PrintWriter(playerFolderPath);
+                    PrintWriter writer = new PrintWriter(playerFolderPath + "/info.txt");
                     writer.write(playerInfoFileContent);
                     writer.close();
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    private void deleteTemporaryPlayersData(HashMap<String, String> playerIndexesAndInfoFiles) {
+        try {
+            for (String playerIndex : playerIndexesAndInfoFiles.keySet()) {
+                String playerFolderPath = tempFolderName + "/" + playerIndex;
+
+                String playerInfoFileContent = playerIndexesAndInfoFiles.get(playerIndex);
+                if (playerInfoFileContent != null) {
+                    new File(playerFolderPath + "/info.txt").delete();
+                }
+
+                new File(playerFolderPath).delete();
+            }
+        } catch (Exception e) {
             fail();
         }
     }
 
     @After
     public void tearDown() throws Exception {
+        deleteTemporaryPlayersData(playerIndexesAndInfoFiles);
 
         File tempFolder = new File(tempFolderName);
         if (!tempFolder.delete()) fail(); //Wasn't able to delete folder
