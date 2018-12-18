@@ -49,7 +49,10 @@ public class Parser {
 
         if (input.hasNext()) {
             lunchCommand = input.nextLine();
-            if (lunchCommand.length() <= 0) throw new ParseException("No lunch command", 3);
+            if (lunchCommand.length() <= 0) {
+                input.close();
+                throw new ParseException("No lunch command", 3);
+            }
         } else {
             input.close();
             throw new ParseException("No lunch command", 3);
