@@ -56,10 +56,12 @@ public class FileManagerTest {
 
                 String playerInfoFileContent = playerIndexesAndInfoFiles.get(playerIndex);
                 if (playerInfoFileContent != null) {
-                    new File(playerFolderPath + "/info.txt").delete();
+                    if (!new File(playerFolderPath + "/info.txt").delete())
+                        fail();
                 }
 
-                new File(playerFolderPath).delete();
+                if (!new File(playerFolderPath).delete())
+                    fail();
             }
         } catch (Exception e) {
             fail();
@@ -70,8 +72,6 @@ public class FileManagerTest {
     public void tearDown() throws Exception {
         deleteTemporaryPlayersData(playerIndexesAndInfoFiles);
 
-        File tempFolder = new File(tempFolderName);
-        if (!tempFolder.delete()) fail(); //Wasn't able to delete folder
     }
 
     //ToDo Write solid tests
@@ -79,7 +79,7 @@ public class FileManagerTest {
     public void importPlayers() {
         try {
             ArrayList<String> errors = new ArrayList<String>();
-            ArrayList<Player> players = FileManager.importPlayers(errors);
+            ArrayList<Player> players = FileManager.importPlayers(tempFolderName, errors);
 
             for (Player player : players) {
                 System.out.println(player);
