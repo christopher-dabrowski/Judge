@@ -5,18 +5,48 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.io.File;
+import java.util.HashMap;
 
 import static org.junit.Assert.fail;
 
 public class FileManagerTest {
     private static String tempFolderName = "TEMP";
+    private HashMap<String, String> playerIndexesAndInfoFiles = null;
 
     @Before
     public void setUp() throws Exception {
         new File(tempFolderName).mkdir();
+
+        playerIndexesAndInfoFiles = new HashMap<String, String>();
+        playerIndexesAndInfoFiles.put("123456", "aliasAA\nAmadeusz Arogund\nsuperAAAA.exe");
+        playerIndexesAndInfoFiles.put("987654", "BARB\nBarnabius Zawacki\nliczyd\u0142o300.js -run");
+        playerIndexesAndInfoFiles.put("999998", null);
+        playerIndexesAndInfoFiles.put("999999", "ciekawaNazwa\nmo333 \n\n");
+
+        createTemporaryPlayersData(playerIndexesAndInfoFiles);
+    }
+
+    private void createTemporaryPlayersData(HashMap<String, String> playerIndexesAndInfoFiles) {
+        try {
+            for (String playerIndex : playerIndexesAndInfoFiles.keySet()) {
+                String playerFolderPath = tempFolderName + "/" + playerIndex;
+                new File(playerFolderPath).mkdir();
+
+                String playerInfoFileContent = playerIndexesAndInfoFiles.get(playerIndex);
+                if (playerInfoFileContent != null) {
+                    PrintWriter writer = new PrintWriter(playerFolderPath);
+                    writer.write(playerInfoFileContent);
+                    writer.close();
+                }
+            }
+        }catch (Exception e) {
+            fail();
+        }
     }
 
     @After
