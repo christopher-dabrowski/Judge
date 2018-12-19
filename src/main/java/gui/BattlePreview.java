@@ -23,11 +23,8 @@ public class BattlePreview extends JPanel {
     }
 
     public void createBattleImage(int number) {
-        //TODO Make it taken from file
-        //Until then its hardcoded TODO TODO TODO
         battleImage = new BattleImage(new Dimension(1000, 500), number);
         this.setPreferredSize(new Dimension(battleImage.getBufferedImage().getWidth(), battleImage.getBufferedImage().getHeight()));
-        //TODO Delete latter
     }
 
     public void take(int y, int x, Color color) {

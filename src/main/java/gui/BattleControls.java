@@ -1,5 +1,6 @@
 package gui;
 
+import lombok.Setter;
 import parser.BattleParser;
 
 import javax.swing.*;
@@ -16,11 +17,12 @@ public class BattleControls {
     private JLabel player0Label;
 
     private BattlePreview battlePreview;
+    @Setter
     private BattleParser battleParser;
 
-    public BattleControls(BattlePreview battlePreview, BattleParser battleParser) {
+    public BattleControls(BattlePreview battlePreview) {
         this.battlePreview = battlePreview;
-        this.battleParser = battleParser;
+
         //            TODO Make it work
         playButton.addActionListener(e -> {
 

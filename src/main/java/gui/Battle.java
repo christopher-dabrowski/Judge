@@ -12,15 +12,11 @@ public class Battle {
     private JPanel overlay;
     private BattleParser battleParser;
 
-    public Battle(File file) throws FileNotFoundException {
-        battleParser = new BattleParser(file);
-        battlePreview.createBattleImage(battleParser.nextBoard());
-    }
-
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST" + BattleControls.class);
         try {
-            Battle battle = new Battle(new File("game_logs/123456VS987654.log"));
+            Battle battle = new Battle();
+            battle.giveFile(new File("game_logs/123456VS987654.log"));
             jFrame.setContentPane(battle.overlay);
             jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             jFrame.pack();
@@ -30,9 +26,16 @@ public class Battle {
         }
     }
 
+    public void giveFile(File file) throws FileNotFoundException {
+        battleParser = new BattleParser(file);
+        //The only use of battleParser outside of BattleControl
+        battlePreview.createBattleImage(battleParser.nextBoard());
+        battleControl.setBattleParser(battleParser);
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         battlePreview = new BattlePreview();
-        battleControl = new BattleControls(battlePreview, battleParser);
+        battleControl = new BattleControls(battlePreview);
     }
 }
