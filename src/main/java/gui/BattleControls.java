@@ -1,8 +1,8 @@
 package gui;
 
+import parser.BattleParser;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class BattleControls {
     private JPanel BattleControlsPanel;
@@ -16,39 +16,26 @@ public class BattleControls {
     private JLabel player0Label;
 
     private BattlePreview battlePreview;
+    private BattleParser battleParser;
 
-    public BattleControls(BattlePreview battlePreview) {
+    public BattleControls(BattlePreview battlePreview, BattleParser battleParser) {
         this.battlePreview = battlePreview;
-        playButton.addActionListener(new ActionListener() {
-            //            TODO Make it work
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        this.battleParser = battleParser;
+        //            TODO Make it work
+        playButton.addActionListener(e -> {
 
-            }
         });
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        nextButton.addActionListener(e -> {
 
-            }
         });
-        previousButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        previousButton.addActionListener(e -> {
 
-            }
         });
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        backButton.addActionListener(e -> {
 
-            }
         });
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        stopButton.addActionListener(e -> {
 
-            }
         });
     }
 

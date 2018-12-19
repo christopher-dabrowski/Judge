@@ -41,7 +41,7 @@ public class Playground implements Cloneable {
      * Creates playground with 10% obstacles
      *
      * @param size Size of game board
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException If odd number is given as size of the playground
      */
     public Playground(int size) throws IllegalArgumentException {
         this(size, 0.1);
@@ -56,9 +56,9 @@ public class Playground implements Cloneable {
     private Playground(Playground playground) {
 //        this.map = playground.map.clone(); //Clone of map but refers to same objects
         this.map = new Tile[playground.size][playground.size];
-        for (Obstacle o : playground.obstacles) {
-            this.map[o.getY()][o.getX()].take();
-        }
+        for (int i = 0; i < playground.map.length; i++)
+            for (int j = 0; j < playground.map.length; j++)
+                this.map[i][j] = playground.map[i][j].clone();
         this.size = playground.size;
         this.obstacles = playground.obstacles.clone();
         this.percentageOfObstacles = playground.percentageOfObstacles;
@@ -75,6 +75,7 @@ public class Playground implements Cloneable {
 
     /**
      * Creates map
+     *
      * @param height Size of the map
      */
     private void makeMap(int height) {
@@ -88,7 +89,7 @@ public class Playground implements Cloneable {
 
     @org.jetbrains.annotations.Contract(pure = true)
     private int getNumberOfObstacles() {
-        return Math.round((size * size) * (float)percentageOfObstacles);
+        return Math.round((size * size) * (float) percentageOfObstacles);
     }
 
     /**

@@ -10,4 +10,10 @@ public class Tile {
         taken = true;
     }
 
+    public Tile clone() {
+        Tile clone = new Tile();
+        clone.taken = this.taken;
+        return clone;
+    }
+
 }
