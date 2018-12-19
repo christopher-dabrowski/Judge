@@ -17,7 +17,7 @@ public class GameQueueTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Player one = new Player("123456", "One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
         Player two = new Player("987654", "Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
         playerList = new ArrayList<>(2);
@@ -31,13 +31,14 @@ public class GameQueueTest {
         Map<Player, GameStatistics> answer = gameQueue.morituriTeSalutant();
 
         for (Player player : playerList) {
-            System.out.println(player);
             if (!answer.containsKey(player))
                 fail();
         }
-        if (answer.get(playerList.get(0)).getWins() != 1)
-            fail();
-        if (answer.get(playerList.get(1)).getWins() != 1)
+        int sum = 0;
+        for (GameStatistics gameStatistics : answer.values()) {
+            sum += gameStatistics.getWins();
+        }
+        if (sum != playerList.size())
             fail();
     }
 }

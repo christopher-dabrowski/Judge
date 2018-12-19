@@ -19,8 +19,8 @@ public class Playground implements Cloneable {
      * Mostly for test purposes
      *
      * @param size                  Size of game board
-     * @param percentageOfObstacles
-     * @throws IllegalArgumentException
+     * @param percentageOfObstacles Percentage of fields taken before game begins.
+     * @throws IllegalArgumentException If odd number is given as size of the playground
      */
     public Playground(int size, double percentageOfObstacles) throws IllegalArgumentException {
         if (size <= 0)
@@ -53,8 +53,12 @@ public class Playground implements Cloneable {
      *
      * @param playground model for copy
      */
-    public Playground(Playground playground) {
-        this.map = playground.map.clone();
+    private Playground(Playground playground) {
+//        this.map = playground.map.clone(); //Clone of map but refers to same objects
+        this.map = new Tile[playground.size][playground.size];
+        for (Obstacle o : playground.obstacles) {
+            this.map[o.getY()][o.getX()].take();
+        }
         this.size = playground.size;
         this.obstacles = playground.obstacles.clone();
         this.percentageOfObstacles = playground.percentageOfObstacles;
@@ -95,9 +99,10 @@ public class Playground implements Cloneable {
     public String printObstacles() {
         StringBuilder resultBuilder = new StringBuilder();
 
-        for (int i = 0; i < obstacles.length; i++)
-            resultBuilder.append(obstacles[i].toString() + (i != obstacles.length - 1 ? "," : ""));
-
+        for (int i = 0; i < obstacles.length; i++) {
+            resultBuilder.append(obstacles[i].toString());
+            resultBuilder.append(i != obstacles.length - 1 ? "," : "");
+        }
         return resultBuilder.toString();
     }
 
@@ -106,10 +111,10 @@ public class Playground implements Cloneable {
      */
     private void addObstacles() {
         obstacles = new Obstacle[getNumberOfObstacles()];
-        LinkedList<Integer> freeSpots = new LinkedList<Integer>(); //Maybe hash table would be faster
+        LinkedList<Integer> freeSpots = new LinkedList<>(); //Maybe hash table would be faster
 
         for (int i = 0; i < size * size; i++)
-            freeSpots.add(new Integer(i)); //Project two dimensional array to one dimension
+            freeSpots.add(i); //Project two dimensional array to one dimension
 
         Random random = new Random();
 

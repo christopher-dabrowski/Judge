@@ -11,14 +11,14 @@ public class Battle {
         JFrame jFrame = new JFrame("TEST" + BattleControls.class);
         Battle battle = new Battle();
         jFrame.setContentPane(battle.overlay);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.pack();
         jFrame.setVisible(true);
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        battlePreview = new BattlePreview();
+        battlePreview = new BattlePreview(13);
         battleControl = new BattleControls(battlePreview);
     }
 }

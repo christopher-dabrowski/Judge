@@ -21,9 +21,9 @@ public class GameQueue {
     @NonNull
 
     public Map<Player, GameStatistics> morituriTeSalutant() {
-        Map<Player, GameStatistics> answer = new HashMap<>(30);
+        Map<Player, GameStatistics> result = new HashMap<>(30);
         for (Player player : playerList) {
-            answer.put(player, new GameStatistics(player));
+            result.put(player, new GameStatistics(player));
         }
         Random rng = new Random();
         for (int outer = 0; outer < playerList.size(); outer++) {
@@ -35,11 +35,11 @@ public class GameQueue {
                 Playground playground = new Playground(size);
                 Playground clone = playground.clone();
                 /*End of concerning code*/
-                resolveOneGame(answer, outer, inner, playground);
-                resolveOneGame(answer, inner, outer, clone);
+                resolveOneGame(result, outer, inner, playground);
+                resolveOneGame(result, inner, outer, clone);
             }
         }
-        return answer;
+        return result;
     }
 
     private void resolveOneGame(Map<Player, GameStatistics> map, int first, int second, Playground playground) {
