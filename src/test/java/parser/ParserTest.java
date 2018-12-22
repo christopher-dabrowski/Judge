@@ -28,9 +28,7 @@ public class ParserTest {
             writer.println("Aleksander Dobrowolski");
             writer.println("fajny_program.exe");
             writer.close();
-        } catch (FileNotFoundException exception) {
-            fail();
-        } catch (UnsupportedEncodingException exception) {
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
             fail();
         }
     }
@@ -47,19 +45,21 @@ public class ParserTest {
         }
         //if (player == null) fail();
 
-        //ToDo Use variables
         if (!player.toString().equals("Kserkses Aleksander Dobrowolski fajny_program.exe")) fail();
     }
 
     @After
     public void tearDown() {
         File tempFile = new File(temFileName);
-        if (!tempFile.delete()) fail(); //Wasn't able to delete file
+        if (!tempFile.delete()) //Wasn't able to delete file
+            fail();
 
         File tempPlayerFolder = new File(tempPlayerFolderName);
-        if (!tempPlayerFolder.delete());
+        if (!tempPlayerFolder.delete())
+            fail();
 
         File tempFolder = new File(tempFolderName);
-        if (!tempFolder.delete()) fail(); //Wasn't able to delete folder
+        if (!tempFolder.delete())
+            fail();
     }
 }
