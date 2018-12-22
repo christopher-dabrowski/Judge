@@ -18,6 +18,9 @@ public class BattleImage {
     private int blockHeight;
     private int spacingSize = 1;
 
+    private Color background = Color.WHITE;
+    private Color separationLines = Color.BLACK;
+
     public BattleImage(Dimension dimension, int size) {
         this.size = size;
         blockHeight = (dimension.height - (size + 1) * spacingSize) / size - 1;
@@ -35,9 +38,13 @@ public class BattleImage {
         graphics.fillRect(positionX, positionY, blockWidth, blockHeight);
     }
 
+    public void clear(int y, int x) {
+        take(y, x, background);
+    }
+
     private void drawSeparation() {
         //Drowing separation lines ( Y axis)
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(separationLines);
         Stroke tmp = graphics.getStroke(); //In rder to set temporary stroke
         graphics.setStroke(new BasicStroke(spacingSize));
         for (int i = 0; i <= size; i++) {
@@ -51,7 +58,7 @@ public class BattleImage {
 
     private void fillSpace() {
         //Filling space
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(background);
         graphics.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
     }
 }
