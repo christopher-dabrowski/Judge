@@ -1,9 +1,10 @@
 package gui;
 
-import lombok.Setter;
+import lombok.var;
 import parser.BattleParser;
 
 import javax.swing.*;
+import java.util.List;
 
 public class BattleControls {
     private JPanel BattleControlsPanel;
@@ -17,8 +18,28 @@ public class BattleControls {
     private JLabel player0Label;
 
     private BattlePreview battlePreview;
-    @Setter
     private BattleParser battleParser;
+
+    private Thread demmon = new Thread(() -> {
+        while (true) {
+
+        }
+    });
+
+    public void setUpBattleParser(BattleParser battleParser) {
+        this.battleParser = battleParser;
+        //y; x
+        List<Integer> obstacles = battleParser.nextObstacles();
+        var PlayerOne = battleParser.nextPlayer();
+        var PlayerTwo = battleParser.nextPlayer();
+        player0Label.setText(PlayerOne);
+        player1Label.setText(PlayerTwo);
+        for (int i = 0; i < obstacles.size(); i += 2) {
+            battlePreview.take(obstacles.get(i), obstacles.get(i + 1), obstaclesLabel.getForeground());
+        }
+        battleParser.skipOkEtc();
+
+    }
 
     public BattleControls(BattlePreview battlePreview) {
         this.battlePreview = battlePreview;

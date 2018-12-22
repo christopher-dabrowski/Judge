@@ -17,8 +17,8 @@ public class LoggerTest {
     @Before
     public void setUp() throws Exception {
 
-        playerOne = new Player("123456", "One", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
-        playerTwo = new Player("987654", "Two", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
+        playerOne = new Player("123456", "Deeper Blue", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
+        playerTwo = new Player("987654", "Garry Kasparov", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
         playground = new Playground(13);
         game = new Game(playerOne, playerTwo, playground);
     }

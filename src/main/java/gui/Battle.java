@@ -30,7 +30,7 @@ public class Battle {
         battleParser = new BattleParser(file);
         //The only use of battleParser outside of BattleControl
         battlePreview.createBattleImage(battleParser.nextBoard());
-        battleControl.setBattleParser(battleParser);
+        battleControl.setUpBattleParser(battleParser);
     }
 
     private void createUIComponents() {
