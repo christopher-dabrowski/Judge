@@ -19,14 +19,23 @@ public class FileManagerTest {
     private HashMap<String, String> playerIndexesAndInfoFiles = null;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
+
+    }
+
+    @After
+    public void tearDown() {
+
+    }
+
+    private void importPlayersSetup() {
         new File(tempFolderName).mkdir();
 
         playerIndexesAndInfoFiles = new HashMap<String, String>();
-        playerIndexesAndInfoFiles.put("123456", "aliasAA\nAmadeusz Arogund\nsuperAAAA.exe");
-        playerIndexesAndInfoFiles.put("987654", "BARB\nBarnabius Zawacki\nliczyd\u0142o300.js -run");
+        playerIndexesAndInfoFiles.put("123456", "aliasAA" + System.lineSeparator() +"Amadeusz Arogund" + System.lineSeparator() + "superAAAA.exe");
+        playerIndexesAndInfoFiles.put("987654", "BARB" + System.lineSeparator() + "Barnabius Zawacki" + System.lineSeparator() + "liczydlo300.js -run");
         playerIndexesAndInfoFiles.put("999998", null);
-        playerIndexesAndInfoFiles.put("999999", "ciekawaNazwa\nmo333 \n\n");
+        playerIndexesAndInfoFiles.put("999999", "ciekawaNazwa" + System.lineSeparator() + "mo333 " + System.lineSeparator() + "" + System.lineSeparator() + "");
 
         createTemporaryPlayersData(playerIndexesAndInfoFiles);
     }
@@ -49,6 +58,31 @@ public class FileManagerTest {
         }
     }
 
+    @Test
+    public void importPlayers() {
+        importPlayersSetup();
+
+        try {
+            ArrayList<String> errors = new ArrayList<String>();
+            ArrayList<Player> players = FileManager.importPlayers(tempFolderName, errors);
+
+            assertEquals(2, players.size());
+            assertArrayEquals(new String[] {"Folder 999998 is missing info.txt file", "Error when parsing info.txt form folder 999999 Error: Invalid player name"}, errors.toArray());
+
+//            for (Player player : players) {
+//                System.out.println(player);
+//            }
+
+//            System.out.println("Errors:");
+//            for (String s : errors)
+//                System.out.println(s);
+        } catch (Exception e) {
+            fail();
+        }
+
+        importPlayersTearDown();
+    }
+
     private void deleteTemporaryPlayersData(HashMap<String, String> playerIndexesAndInfoFiles) {
         try {
             for (String playerIndex : playerIndexesAndInfoFiles.keySet()) {
@@ -68,33 +102,11 @@ public class FileManagerTest {
         }
     }
 
-    @After
-    public void tearDown() throws Exception {
+    public void importPlayersTearDown() {
         deleteTemporaryPlayersData(playerIndexesAndInfoFiles);
 
         if (!new File(tempFolderName).delete())
             fail();
-    }
-
-    @Test
-    public void importPlayers() {
-        try {
-            ArrayList<String> errors = new ArrayList<String>();
-            ArrayList<Player> players = FileManager.importPlayers(tempFolderName, errors);
-
-            assertEquals(2, players.size());
-            assertArrayEquals(new String[] {"Folder 999998 is missing info.txt file", "Error when parsing info.txt form folder 999999 Error: Invalid player name"}, errors.toArray());
-
-//            for (Player player : players) {
-//                System.out.println(player);
-//            }
-
-//            System.out.println("Errors:");
-//            for (String s : errors)
-//                System.out.println(s);
-        } catch (Exception e) {
-            fail();
-        }
     }
 
     @Test
