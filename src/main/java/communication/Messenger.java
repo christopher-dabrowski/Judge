@@ -55,13 +55,10 @@ public class Messenger {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private String innerSend(String n, Player player) throws IOException {
         ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
-        char[] answer = new char[16];
         //Precise time measuring
         long time = System.nanoTime();
         thisExtendedPlayer.playerPrintStream.println(n);
-
         String temporary = thisExtendedPlayer.bufferedReader.readLine();
-
         timeTaken = System.nanoTime() - time;
 
 //        StringBuilder stringBuilder = new StringBuilder(17);

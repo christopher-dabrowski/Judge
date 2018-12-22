@@ -1,5 +1,7 @@
 package parser;
 
+import lombok.var;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class BattleParser {
             System.out.println(battleParser.nextObstacles());
             System.out.println(battleParser.nextPlayer());
             System.out.println(battleParser.nextPlayer());
-            battleParser.skipInfo();
+            battleParser.skipOkEtc();
             System.out.println(Arrays.toString(battleParser.nextMove()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -35,7 +37,7 @@ public class BattleParser {
         return boardSize;
     }
 
-    public List nextObstacles() {
+    public List<Integer> nextObstacles() {
         scanner.nextLine();
         Scanner obstaclesScanner = new Scanner(scanner.nextLine());
         obstaclesScanner.skip(".* ");
@@ -48,8 +50,9 @@ public class BattleParser {
 
     public String nextPlayer() {
         scanner.next();
-        String answer = scanner.next("\".*\"");
-        return answer;
+        var answer = scanner.findInLine("\".{0,20}").split("\"");
+        scanner.nextLine();
+        return answer[1];
     }
 
     public int[] nextMove() {
@@ -61,7 +64,7 @@ public class BattleParser {
         return answer;
     }
 
-    public void skipInfo() {
+    public void skipOkEtc() {
         scanner.skip("[\\w\\s]+:\\s");
     }
 }
