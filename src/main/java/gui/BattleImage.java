@@ -9,7 +9,6 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class BattleImage {
     //This is matrix that uses y x cordinates but image uses x y
-    //TODO consider using inheritance
     @Getter
     private BufferedImage bufferedImage;
     private Graphics2D graphics;

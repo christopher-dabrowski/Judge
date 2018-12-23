@@ -34,7 +34,6 @@ public class Battle {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         battlePreview = new BattlePreview();
         battleControl = new BattleControls(battlePreview);
     }

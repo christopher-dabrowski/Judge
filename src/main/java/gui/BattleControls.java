@@ -30,7 +30,6 @@ public class BattleControls {
     private int index = 0;
     private Stack<Block> pastBlocks = new Stack<>();
     private Stack<Block> revertedBlocks = new Stack<>();
-    //TODO Consider replacing flag with call of wait
     private Thread daemon = new Thread(() -> {
         while (true) {
             if (play) {
@@ -51,7 +50,6 @@ public class BattleControls {
     public BattleControls(BattlePreview battlePreview) {
         this.battlePreview = battlePreview;
 
-        //            TODO Make it work
         playButton.addActionListener(e -> {
             synchronized (this) {
                 play = true;
@@ -72,7 +70,6 @@ public class BattleControls {
                 }
             }
         });
-//TODO Implement viewing of previous moves
         previousButton.addActionListener(e -> {
             if (!play)
                 unTake();
@@ -80,6 +77,7 @@ public class BattleControls {
         });
         backButton.addActionListener(e -> {
             SwingUtilities.getWindowAncestor(battleControlsPanel).dispose();
+            daemon.interrupt();
         });
 
         daemon.setDaemon(true);

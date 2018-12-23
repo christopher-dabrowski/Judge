@@ -14,8 +14,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Game {
     private final long maxWait = 500 * 1000 * 1000;//nm
-    //    TODO get back to 800
-    private final long waitTime = 800 * 100; //ms
+    private final long waitTime = 700; //ms
 
     @NonNull
     @Getter
@@ -116,7 +115,16 @@ public class Game {
     public GameResult play() {
         messenger = new Messenger(playerOne, playerTwo);
         try {
-            messenger.openCommunication();
+            messenger.openCommunication(playerOne);
+        } catch (IOException e) {
+            return new GameResult(playerTwo, Setteling.TIMEOUT);
+        }
+        try {
+            messenger.openCommunication(playerTwo);
+        } catch (IOException e) {
+            return new GameResult(playerOne, Setteling.TIMEOUT);
+        }
+        try {
             logger = new Logger(this);
             GameResult tmp = this.innerPlay();
             logger.close();
@@ -135,7 +143,7 @@ public class Game {
         while (!messenger.isDelivered()) {
             Thread.yield();
             if (timeTaken > waitTime) {
-                return timeTaken;
+                return timeTaken * 1000 * 1000;
             }
             timeTaken = System.currentTimeMillis() - startTime;
             Thread.yield();

@@ -9,7 +9,7 @@ public class ListDisplay {
     private List content;
 
     private JPanel overlay;
-    private JList list;
+    private JList<Object> list;
     private JScrollPane scrollPane;
     private JButton tekstButton;
     private JButton backButton;
@@ -32,8 +32,7 @@ public class ListDisplay {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        list = new JList(content.toArray());
+        list = new JList<>(content.toArray());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(-1);
