@@ -87,9 +87,10 @@ public class Messenger {
         thisExtendedPlayer.playerOutputStream = new InputStreamReader(thisExtendedPlayer.playerProcess.getInputStream());
         thisExtendedPlayer.bufferedReader = new BufferedReader(thisExtendedPlayer.playerOutputStream);
         //Starting broker thread
-        thread.setDaemon(true);
-        if (!thread.isAlive())
+        if (!thread.isAlive()) {
+            thread.setDaemon(true);
             thread.start();
+        }
     }
 
     public void endCommunication() {
