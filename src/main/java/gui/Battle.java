@@ -10,7 +10,6 @@ public class Battle {
     private BattlePreview battlePreview;
     private BattleControls battleControl;
     private JPanel overlay;
-    private BattleParser battleParser;
 
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST" + BattleControls.class);
@@ -27,7 +26,7 @@ public class Battle {
     }
 
     public void giveFile(File file) throws FileNotFoundException {
-        battleParser = new BattleParser(file);
+        BattleParser battleParser = new BattleParser(file);
         //The only use of battleParser outside of BattleControl
         battlePreview.createBattleImage(battleParser.nextBoard());
         battleControl.setUpBattleParser(battleParser);
