@@ -37,9 +37,9 @@ public class Game {
         Player[] actualPlayers = {playerOne, playerTwo};
         int index = 0;
         //
-        //Send basic intel
         long timeTaken;
 
+        //Send basic intel
         for (int i = 0; i < 2; i++) {
             timeTaken = oneMove(String.valueOf(playground.getSize()), actualPlayers[index]);
             index++;
