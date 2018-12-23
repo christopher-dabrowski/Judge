@@ -40,23 +40,17 @@ public class Game {
         //Send basic intel
         long timeTaken;
 
-        timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
-        if (timeTaken > maxWait) return new GameResult(playerTwo, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
-            logger.logCommunicationState(false);
-            return new GameResult(playerTwo, Setteling.CLASSIC);
+        for (int i = 0; i < 2; i++) {
+            timeTaken = oneMove(String.valueOf(playground.getSize()), actualPlayers[index]);
+            index++;
+            index %= 2; // index now points to the next player
+            if (timeTaken > maxWait) return new GameResult(actualPlayers[index], Setteling.TIMEOUT);
+            if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+                logger.logCommunicationState(false);
+                return new GameResult(actualPlayers[index], Setteling.CLASSIC);
+            }
+            logger.logCommunicationState(true);
         }
-
-        logger.logCommunicationState(true);
-
-        timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
-        if (timeTaken > maxWait) return new GameResult(playerOne, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
-            logger.logCommunicationState(false); //Second made mistake
-            return new GameResult(playerOne, Setteling.CLASSIC);
-        }
-
-        logger.logCommunicationState(true);
 
         //Send obstacles
         timeTaken = oneMove(playground.printObstacles(), playerOne);
