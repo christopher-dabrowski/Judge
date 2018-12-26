@@ -7,11 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUIMain {
+    private JFrame frame;
     private JPanel mainPanel;
     private JButton startButton;
     private JLabel heding;
-    private JTextArea playerFolderTextArea;
     private JButton pickFolderButton;
+    private JTextField playerFolderTextField;
     private JFileChooser fileChooser;
 
     public static void main(String... args) {
@@ -28,6 +29,7 @@ public class GUIMain {
     }
 
     public GUIMain(JFrame frame) {
+        this.frame = frame;
 
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -35,16 +37,28 @@ public class GUIMain {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO Lunch tournament
 
                 JOptionPane.showMessageDialog(frame, "Button has been pressed!\nThe tournament is about to begin");
 
-                int returnValue = fileChooser.showOpenDialog(frame);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    System.out.println(fileChooser.getSelectedFile());
-                    JOptionPane.showMessageDialog(frame, fileChooser.getSelectedFile());
-                }
+
 
             }
         });
+
+        pickFolderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handlePickPlayersFolderButtonClick();
+            }
+        });
+    }
+
+    private void handlePickPlayersFolderButtonClick() {
+        int returnValue = fileChooser.showOpenDialog(frame);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            playerFolderTextField.setText(fileChooser.getSelectedFile().toString());
+        }
     }
 }
