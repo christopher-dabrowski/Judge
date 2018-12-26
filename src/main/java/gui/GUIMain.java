@@ -5,6 +5,7 @@ import javafx.stage.FileChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class GUIMain {
     private JFrame frame;
@@ -37,12 +38,14 @@ public class GUIMain {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO Lunch tournament
-
-                JOptionPane.showMessageDialog(frame, "Button has been pressed!\nThe tournament is about to begin");
 
 
-
+                if (verifyPlayersFolder()) {
+                    //TODO Lunch tournament
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "Chosen directory does not exist");
+                }
             }
         });
 
@@ -60,5 +63,11 @@ public class GUIMain {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             playerFolderTextField.setText(fileChooser.getSelectedFile().toString());
         }
+    }
+
+    private boolean verifyPlayersFolder() {
+        File folder = new File(playerFolderTextField.getText());
+
+        return folder.exists() && folder.isDirectory();
     }
 }
