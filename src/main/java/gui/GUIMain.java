@@ -2,10 +2,13 @@ package gui;
 
 import javafx.stage.FileChooser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 public class GUIMain {
     private JFrame frame;
@@ -22,7 +25,7 @@ public class GUIMain {
         jFrame.setContentPane(gui.mainPanel);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        jFrame.setSize(800, 600);
+        jFrame.setSize(600, 350);
 
 
         //jFrame.pack();
@@ -31,6 +34,14 @@ public class GUIMain {
 
     public GUIMain(JFrame frame) {
         this.frame = frame;
+
+        //java.net.URL url = GUIMain.class.getResource("../../img/folder.png"); //Doesn't work
+//        try {
+//            Image img = ImageIO.read(getClass().getResource("img/folder.png")); //This won't work niter
+//            pickFolderButton.setIcon(new ImageIcon(img));
+//        } catch (IOException e) {
+//
+//        }
 
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
