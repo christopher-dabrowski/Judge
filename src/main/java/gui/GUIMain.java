@@ -1,6 +1,8 @@
 package gui;
 
+import filemanager.FileManager;
 import javafx.stage.FileChooser;
+import mainlogic.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GUIMain {
     private JFrame frame;
@@ -49,10 +52,18 @@ public class GUIMain {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 if (verifyPlayersFolder()) {
-                    //TODO Lunch tournament
+                    try {
+                        ArrayList<String> errors = new ArrayList<>(); //If there are errors with parsing player files we might print them
+                        ArrayList<Player> players = FileManager.importPlayers(playerFolderTextField.getText(), errors);
+                        //TODO Lunch tournament
+
+
+
+                    } catch (IOException exception) {
+                        JOptionPane.showMessageDialog(frame, "Error occurred when lading player files\nErrod: " + exception.getMessage() + "\n" + exception.getStackTrace());
+                    }
+
                 }
                 else {
                     JOptionPane.showMessageDialog(frame, "Chosen directory does not exist");
