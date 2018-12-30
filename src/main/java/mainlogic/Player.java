@@ -1,6 +1,7 @@
 package mainlogic;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Player {
     @Getter
@@ -20,7 +21,8 @@ public class Player {
      * Lunch command with full path so that it can be easily run
      */
     @Getter
-    private final String fullLunchCommand;
+    @Setter
+    private String fullLunchCommand;
 
     public Player(String indexNumber, String alias, String name, String surname, String lunchCommand) {
         this(indexNumber, alias, name, surname, lunchCommand, null);
