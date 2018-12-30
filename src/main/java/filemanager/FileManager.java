@@ -14,43 +14,14 @@ public class FileManager {
     private static String DEFAULT_PLAYERS_FOLDER_NAME = "players";
 
     /**
-     * Imports players from players folder
+     * Imports players from default players folder
      *
      * @param errors Error messages from loading are appended here
      * @return Array of corectly loaded players
      * @throws IOException When unable to find players folder
      */
     public static ArrayList<Player> importPlayers(ArrayList<String> errors) throws IOException {
-        ArrayList<Player> players = new ArrayList<Player>();
-
-        FilenameFilter playerFolderFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.matches("\\d{6}");
-            }
-        };
-        FilenameFilter playerInfoFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.equals("info.txt");
-            }
-        };
-
-        File playersFolder = new File(getPlayersFolderLocation());
-        for (File playerFolder : playersFolder.listFiles(playerFolderFilter)) {
-
-            try {
-                if (playerFolder.listFiles(playerInfoFilter).length != 1) //Brakuje pliku info.txt
-                    throw new FileNotFoundException("Players folder missing info.txt");
-
-                File playerInfo = playerFolder.listFiles(playerInfoFilter)[0];
-                players.add(Parser.readPlayerInfo(playerInfo.getPath()));
-            } catch (FileNotFoundException e) {
-                errors.add("Folder " + playerFolder.getName() + " is missing info.txt file");
-            } catch (ParseException e) {
-                errors.add("Error when parsing info.txt form folder " + playerFolder.getName() + " Error: " + e.getMessage());
-            }
-        }
-
-        return players;
+        return importPlayers(DEFAULT_PLAYERS_FOLDER_NAME, errors);
     }
 
     /**
