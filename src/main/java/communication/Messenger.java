@@ -90,12 +90,12 @@ public class Messenger {
 
     public void openCommunication() throws IOException {
         //TODO Make possible to distinguish which player had problems executing
-        extendedPlayer1.playerProcess = Runtime.getRuntime().exec(extendedPlayer1.player.getLunchCommand());
+        extendedPlayer1.playerProcess = Runtime.getRuntime().exec(extendedPlayer1.player.getFullLunchCommand());
         extendedPlayer1.playerPrintStream = new PrintStream(extendedPlayer1.playerProcess.getOutputStream(), true);
         extendedPlayer1.playerOutputStream = new InputStreamReader(extendedPlayer1.playerProcess.getInputStream(), "US-ASCII");
         extendedPlayer1.bufferedReader = new BufferedReader(extendedPlayer1.playerOutputStream);
 
-        extendedPlayer2.playerProcess = Runtime.getRuntime().exec(extendedPlayer2.player.getLunchCommand());
+        extendedPlayer2.playerProcess = Runtime.getRuntime().exec(extendedPlayer2.player.getFullLunchCommand());
         extendedPlayer2.playerPrintStream = new PrintStream(extendedPlayer2.playerProcess.getOutputStream(), true);
         extendedPlayer2.playerOutputStream = new InputStreamReader(extendedPlayer2.playerProcess.getInputStream(), "US-ASCII");
         extendedPlayer2.bufferedReader = new BufferedReader(extendedPlayer2.playerOutputStream);
