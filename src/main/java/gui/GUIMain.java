@@ -1,17 +1,15 @@
 package gui;
 
 import filemanager.FileManager;
-import javafx.stage.FileChooser;
+import gamequeuing.GameQueue;
+import gamequeuing.GameStatistics;
 import mainlogic.Player;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GUIMain {
     private JFrame frame;
@@ -35,7 +33,7 @@ public class GUIMain {
         jFrame.setVisible(true);
     }
 
-    public GUIMain(JFrame frame) {
+    private GUIMain(JFrame frame) {
         this.frame = frame;
 
         //java.net.URL url = GUIMain.class.getResource("../../img/folder.png"); //Doesn't work
@@ -49,34 +47,37 @@ public class GUIMain {
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (verifyPlayersFolder()) {
-                    try {
-                        ArrayList<String> errors = new ArrayList<>(); //If there are errors with parsing player files we might print them
-                        ArrayList<Player> players = FileManager.importPlayers(playerFolderTextField.getText(), errors);
-                        //TODO Lunch tournament
-
-
-
-                    } catch (IOException exception) {
-                        JOptionPane.showMessageDialog(frame, "Error occurred when lading player files\nErrod: " + exception.getMessage() + "\n" + exception.getStackTrace());
-                    }
-
+        startButton.addActionListener(e -> {
+            if (verifyPlayersFolder()) {
+                try {
+                    ArrayList<String> errors = new ArrayList<>(); //If there are errors with parsing player files we might print them
+                    ArrayList<Player> players = FileManager.importPlayers(playerFolderTextField.getText(), errors);
+                    GameQueue gameQueue = new GameQueue(players);
+                    Map<Player, GameStatistics> list = gameQueue.morituriTeSalutant();
+                    List<GameStatistics> scores = new ArrayList<>(list.values());
+                    scores.sort((o1, o2) -> {
+                        if (o2.getKnockouts() - o1.getKnockouts() == 0)
+                            return o2.getWins() - o1.getWins();
+                        else
+                            return o2.getWins() - o1.getWins();
+                    });
+                    ListDisplay<GameStatistics> listDisplay = new ListDisplay<>();
+                    listDisplay.setSubject(scores);
+                    JFrame jFrame = new JFrame("Scores");
+                    jFrame.setContentPane(listDisplay.getOverlay());
+                    jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    jFrame.pack();
+                    jFrame.setVisible(true);
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(frame, "Error occurred when loading player files");
                 }
-                else {
-                    JOptionPane.showMessageDialog(frame, "Chosen directory does not exist");
-                }
+
+            } else {
+                JOptionPane.showMessageDialog(frame, "Chosen directory does not exist");
             }
         });
 
-        pickFolderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handlePickPlayersFolderButtonClick();
-            }
-        });
+        pickFolderButton.addActionListener(e -> handlePickPlayersFolderButtonClick());
     }
 
     private void handlePickPlayersFolderButtonClick() {
