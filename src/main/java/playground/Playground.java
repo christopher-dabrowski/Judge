@@ -152,27 +152,49 @@ public class Playground implements Cloneable {
             return false;
         if (x2 > map.length || x2 < 0)
             return false;
-        if (map[y1][x1].isTaken() || map[y2][x1].isTaken())
+        if (map[y1][x1].isTaken() || map[y2][x2].isTaken())
             return false;
 
         if (y1 == y2) { //Horizontal block
-            if (Math.abs(x1 - x2) != 1) { //Blocks aren't directly adjacent
-                if (!((x1 == 0 && x2 == map.length - 1) || (x2 == 0 && x1 == map.length - 1))) //Check if they are on the very right and left edge
-                    return false;
-            }
+            //Blocks aren't directly adjacent. Check if they are on the very right and left edge
+            if ((Math.abs(x1 - x2) != 1) && (Math.abs(x1 - x2) != map.length - 1))
+                return false;
         } else if (x1 == x2) { //Vertical block
-            if (Math.abs(y1 - y2) != 1) { //Blocks aren't directly adjacent
-                if (!((y1 == 0 && y2 == map.length - 1) || (y2 == 0 && y1 == map.length - 1))) //Check if they are on the very top and bottom
-                    return false;
-            }
-        } else {
-            return false;
-        }
+            //Blocks aren't directly adjacent. Check if they are on the very top and bottom
+            if ((Math.abs(y1 - y2) != 1) && (Math.abs(y1 - y2) != map.length - 1))
+                return false;
+        } else return false;
 
 
         map[y1][x1].take();
         map[y2][x2].take();
         return true;
 
+    }
+
+    public boolean isFull() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map.length; j++) {
+                if (vonNeumannFreeNeighbours(i, j))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean vonNeumannFreeNeighbours(int y, int x) {
+        for (int i = -1; i < 2; i += 2)
+            if (!map[modulus(y + i, map.length)][modulus(x, map.length)].isTaken())
+                return true;
+
+        for (int i = -1; i < 2; i += 2)
+            if (!map[modulus(y, map.length)][modulus(x + i, map.length)].isTaken())
+                return true;
+
+        return false;
+    }
+
+    private int modulus(int number, int base) {
+        return number < 0 ? number % base + base : number % base;
     }
 }

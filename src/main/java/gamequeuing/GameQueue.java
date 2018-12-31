@@ -28,7 +28,6 @@ public class GameQueue {
         Random rng = new Random();
         for (int outer = 0; outer < playerList.size(); outer++) {
             for (int inner = outer + 1; inner < playerList.size(); inner++) {
-                //TODO Consider moving this to playground constructor
                 int size = rng.nextInt(51 - 13);
                 size = size % 2 == 0 ? size : size + 1;
                 size += 13;

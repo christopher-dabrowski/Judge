@@ -19,13 +19,13 @@ public class LoggerTest {
 
         playerOne = new Player("123456", "Deeper Blue", "Jan", "Kowalski", "java -jar .\\ProxyPlayer.jar");
         playerTwo = new Player("987654", "Garry Kasparov", "John", "Bukowski", "java -jar .\\ProxyPlayer1.jar");
-        playground = new Playground(13);
+        playground = new Playground(51);
         game = new Game(playerOne, playerTwo, playground);
     }
 
     @Test
     public void loggerTest() {
         GameResult gameResult = game.play();
-        //TODO find a way to test it automatic
+        //TODO find a way to test it aromatically
     }
 }
