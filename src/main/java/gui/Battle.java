@@ -1,5 +1,6 @@
 package gui;
 
+import lombok.Getter;
 import parser.BattleParser;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.io.FileNotFoundException;
 public class Battle {
     private BattlePreview battlePreview;
     private BattleControls battleControl;
+    @Getter
     private JPanel overlay;
     private BattleParser battleParser;
 
