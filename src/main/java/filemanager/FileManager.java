@@ -1,5 +1,6 @@
 package filemanager;
 
+import lombok.var;
 import mainlogic.Player;
 import parser.Parser;
 
@@ -18,9 +19,9 @@ public class FileManager {
      *
      * @param errors Error messages from loading are appended here
      * @return Array of corectly loaded players
-     * @throws IOException When unable to find players folder
+     *
      */
-    public static ArrayList<Player> importPlayers(ArrayList<String> errors) throws IOException {
+    public static ArrayList<Player> importPlayers(ArrayList<String> errors) {
         return importPlayers(DEFAULT_PLAYERS_FOLDER_NAME, errors);
     }
 
@@ -28,44 +29,44 @@ public class FileManager {
      * Imports players from players folder. Allows to specify players folder name
      *
      * @param playersFolderName Custom players folder name
-     * @param errors Error messages from loading are appended here
+     * @param errors            Error messages from loading are appended here
      * @return Array of corectly loaded players
-     * @throws IOException When unable to find players folder
+     *
      */
-    public static ArrayList<Player> importPlayers(String playersFolderName , ArrayList<String> errors) throws IOException {
-        ArrayList<Player> players = new ArrayList<Player>();
+    public static ArrayList<Player> importPlayers(String playersFolderName, ArrayList<String> errors) {
+        ArrayList<Player> players = new ArrayList<>();
 
-        FilenameFilter playerFolderFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.matches("\\d{6}");
-            }
-        };
-        FilenameFilter playerInfoFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.equals("info.txt");
-            }
-        };
+        FilenameFilter playerFolderFilter = (dir, name) -> name.matches("\\d{6}");
+        FilenameFilter playerInfoFilter = (dir, name) -> name.equals("info.txt");
 
         File playersFolder = new File(playersFolderName);
-        for (File playerFolder : playersFolder.listFiles(playerFolderFilter)) {
-
+        var listOfFolders = playersFolder.listFiles(playerFolderFilter);
+        if (listOfFolders != null) {
             try {
-                if (playerFolder.listFiles(playerInfoFilter).length != 1) //Brakuje pliku info.txt
-                    throw new FileNotFoundException("Players folder missing info.txt");
+                for (File playerFolder : listOfFolders) {
+                    try {
+                        var listOfFiles = playerFolder.listFiles(playerInfoFilter);
+                        if (listOfFiles == null || listOfFiles.length != 1) //Brakuje pliku info.txt
+                            throw new FileNotFoundException("Players folder missing info.txt");
+                        File playerInfo = listOfFiles[0];
+                        Player newPlayer = Parser.readPlayerInfo(playerInfo.getPath());
+                        newPlayer.setFullLunchCommand(
+                                playersFolder.getAbsolutePath() + "\\"
+                                        + newPlayer.getIndexNumber() + "\\"
+                                        + newPlayer.getLunchCommand()
+                        );
 
-                File playerInfo = playerFolder.listFiles(playerInfoFilter)[0];
-
-                Player newPlayer = Parser.readPlayerInfo(playerInfo.getPath());
-                newPlayer.setFullLunchCommand(playersFolder.getAbsolutePath() + "\\" + newPlayer.getLunchCommand());
-
-                players.add(newPlayer);
-            } catch (FileNotFoundException e) {
-                errors.add("Folder " + playerFolder.getName() + " is missing info.txt file");
-            } catch (ParseException e) {
-                errors.add("Error when parsing info.txt form folder " + playerFolder.getName() + " Error: " + e.getMessage());
+                        players.add(newPlayer);
+                    } catch (FileNotFoundException e) {
+                        errors.add("Folder " + playerFolder.getName() + " is missing info.txt file");
+                    } catch (ParseException e) {
+                        errors.add("Error when parsing info.txt form folder " + playerFolder.getName() + " Error: " + e.getMessage());
+                    }
+                }
+            } catch (NullPointerException e) {
+                //do sth
             }
         }
-
         return players;
     }
 

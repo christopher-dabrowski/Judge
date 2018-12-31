@@ -24,4 +24,10 @@ public class GameStatistics {
     public void incrementKnockouts() {
         knockouts++;
     }
+
+    @Override
+    public String toString() {
+        String separation = "       |       ";
+        return String.format("%10s%s%10s%s%4s%s%9s", player.getAlias(), separation, player.getIndexNumber(), separation, wins, separation, knockouts);
+    }
 }
