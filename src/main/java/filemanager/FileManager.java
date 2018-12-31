@@ -11,16 +11,28 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class FileManager {
-    private static String PLAYERS_FOLDER_NAME = "players";
+    private static String DEFAULT_PLAYERS_FOLDER_NAME = "players";
 
     /**
-     * Imports players from players folder
+     * Imports players from default players folder
      *
      * @param errors Error messages from loading are appended here
      * @return Array of corectly loaded players
      * @throws IOException When unable to find players folder
      */
     public static ArrayList<Player> importPlayers(ArrayList<String> errors) throws IOException {
+        return importPlayers(DEFAULT_PLAYERS_FOLDER_NAME, errors);
+    }
+
+    /**
+     * Imports players from players folder. Allows to specify players folder name
+     *
+     * @param playersFolderName Custom players folder name
+     * @param errors Error messages from loading are appended here
+     * @return Array of corectly loaded players
+     * @throws IOException When unable to find players folder
+     */
+    public static ArrayList<Player> importPlayers(String playersFolderName , ArrayList<String> errors) throws IOException {
         ArrayList<Player> players = new ArrayList<Player>();
 
         FilenameFilter playerFolderFilter = new FilenameFilter() {
@@ -34,7 +46,7 @@ public class FileManager {
             }
         };
 
-        File playersFolder = new File(getPlayersFolderLocation());
+        File playersFolder = new File(playersFolderName);
         for (File playerFolder : playersFolder.listFiles(playerFolderFilter)) {
 
             try {
@@ -42,7 +54,11 @@ public class FileManager {
                     throw new FileNotFoundException("Players folder missing info.txt");
 
                 File playerInfo = playerFolder.listFiles(playerInfoFilter)[0];
-                players.add(Parser.readPlayerInfo(playerInfo.getPath()));
+
+                Player newPlayer = Parser.readPlayerInfo(playerInfo.getPath());
+                newPlayer.setFullLunchCommand(playersFolder.getAbsolutePath() + "\\" + newPlayer.getLunchCommand());
+
+                players.add(newPlayer);
             } catch (FileNotFoundException e) {
                 errors.add("Folder " + playerFolder.getName() + " is missing info.txt file");
             } catch (ParseException e) {
@@ -58,7 +74,7 @@ public class FileManager {
     }
 
     public static String getPlayersFolderLocation() throws IOException {
-        String path = getProgramLocation() + "\\" + PLAYERS_FOLDER_NAME;
+        String path = getProgramLocation() + "\\" + DEFAULT_PLAYERS_FOLDER_NAME;
         File file = new File(path);
 
         if (file.exists() && file.isDirectory())
