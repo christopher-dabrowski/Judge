@@ -82,7 +82,7 @@ public class Messenger {
     public void openCommunication(Player player) throws IOException {
         //TODO Make possible to distinguish which player had problems executing
         ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
-        thisExtendedPlayer.playerProcess = Runtime.getRuntime().exec(thisExtendedPlayer.player.getLunchCommand());
+        thisExtendedPlayer.playerProcess = Runtime.getRuntime().exec(thisExtendedPlayer.player.getFullLunchCommand());
         thisExtendedPlayer.playerPrintStream = new PrintStream(thisExtendedPlayer.playerProcess.getOutputStream(), true);
         thisExtendedPlayer.playerOutputStream = new InputStreamReader(thisExtendedPlayer.playerProcess.getInputStream());
         thisExtendedPlayer.bufferedReader = new BufferedReader(thisExtendedPlayer.playerOutputStream);
