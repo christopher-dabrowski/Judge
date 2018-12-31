@@ -19,14 +19,16 @@ public class GameTest {
         game = new Game(playerOne, playerTwo, playground);
     }
 
+
+    //TODO make this test not random
     @Test
     public void play() {
         try {
             game.GameResult winner = game.play();
             if (winner.getPlayer() != playerOne)
                 fail();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
     }

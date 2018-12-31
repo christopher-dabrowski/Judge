@@ -22,7 +22,7 @@ public class Messenger {
     private String toDeliver;
     private Player addressee;
     private boolean deliver = false;
-    long timeTaken;
+    private long timeTaken;
 
     private Thread thread = new Thread(() -> {
         while (true) {
@@ -52,7 +52,6 @@ public class Messenger {
         extendedPlayer2 = new ExtendedPlayer(two);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private String innerSend(String n, Player player) throws IOException {
         ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
         //Precise time measuring
@@ -60,14 +59,6 @@ public class Messenger {
         thisExtendedPlayer.playerPrintStream.println(n);
         String temporary = thisExtendedPlayer.bufferedReader.readLine();
         timeTaken = System.nanoTime() - time;
-
-//        StringBuilder stringBuilder = new StringBuilder(17);
-//        for (char c : answer) {
-//            if (c != 0 && c != '\r' && c != '\n')
-//                stringBuilder.append(c);
-//        }
-//        System.out.println(stringBuilder.toString());
-//        return stringBuilder.toString();
         return temporary;
     }
 
@@ -88,21 +79,18 @@ public class Messenger {
         deliver = true;
     }
 
-    public void openCommunication() throws IOException {
+    public void openCommunication(Player player) throws IOException {
         //TODO Make possible to distinguish which player had problems executing
-        extendedPlayer1.playerProcess = Runtime.getRuntime().exec(extendedPlayer1.player.getLunchCommand());
-        extendedPlayer1.playerPrintStream = new PrintStream(extendedPlayer1.playerProcess.getOutputStream(), true);
-        extendedPlayer1.playerOutputStream = new InputStreamReader(extendedPlayer1.playerProcess.getInputStream(), "US-ASCII");
-        extendedPlayer1.bufferedReader = new BufferedReader(extendedPlayer1.playerOutputStream);
-
-        extendedPlayer2.playerProcess = Runtime.getRuntime().exec(extendedPlayer2.player.getLunchCommand());
-        extendedPlayer2.playerPrintStream = new PrintStream(extendedPlayer2.playerProcess.getOutputStream(), true);
-        extendedPlayer2.playerOutputStream = new InputStreamReader(extendedPlayer2.playerProcess.getInputStream(), "US-ASCII");
-        extendedPlayer2.bufferedReader = new BufferedReader(extendedPlayer2.playerOutputStream);
-
+        ExtendedPlayer thisExtendedPlayer = player == extendedPlayer1.player ? extendedPlayer1 : extendedPlayer2;
+        thisExtendedPlayer.playerProcess = Runtime.getRuntime().exec(thisExtendedPlayer.player.getFullLunchCommand());
+        thisExtendedPlayer.playerPrintStream = new PrintStream(thisExtendedPlayer.playerProcess.getOutputStream(), true);
+        thisExtendedPlayer.playerOutputStream = new InputStreamReader(thisExtendedPlayer.playerProcess.getInputStream());
+        thisExtendedPlayer.bufferedReader = new BufferedReader(thisExtendedPlayer.playerOutputStream);
         //Starting broker thread
-        thread.setDaemon(true);
-        thread.start();
+        if (!thread.isAlive()) {
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 
     public void endCommunication() {

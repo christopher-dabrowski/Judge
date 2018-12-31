@@ -15,7 +15,8 @@ public class MessengerTest {
 
     @Before
     public void setUp() throws Exception {
-        messenger.openCommunication();
+        messenger.openCommunication(playerOne);
+        messenger.openCommunication(playerTwo);
     }
 
     @After

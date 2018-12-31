@@ -31,6 +31,10 @@ public class BattlePreview extends JPanel {
         battleImage.take(y, x, color);
     }
 
+    public void clear(int y, int x) {
+        battleImage.clear(y, x);
+    }
+
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

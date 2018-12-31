@@ -12,7 +12,6 @@ public class Battle {
     private BattleControls battleControl;
     @Getter
     private JPanel overlay;
-    private BattleParser battleParser;
 
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST" + BattleControls.class);
@@ -29,14 +28,13 @@ public class Battle {
     }
 
     public void giveFile(File file) throws FileNotFoundException {
-        battleParser = new BattleParser(file);
+        BattleParser battleParser = new BattleParser(file);
         //The only use of battleParser outside of BattleControl
         battlePreview.createBattleImage(battleParser.nextBoard());
         battleControl.setUpBattleParser(battleParser);
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         battlePreview = new BattlePreview();
         battleControl = new BattleControls(battlePreview);
     }

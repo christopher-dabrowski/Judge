@@ -14,8 +14,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Game {
     private final long maxWait = 500 * 1000 * 1000;//nm
-    //    TODO get back to 800
-    private final long waitTime = 800 * 100; //ms
+    private final long waitTime = 700; //ms
 
     @NonNull
     @Getter
@@ -31,31 +30,27 @@ public class Game {
 
     private Messenger messenger;
 
-    //TODO add option of time out
-    //TODO add logging moves
-    //TODO consider caching the answer
     private GameResult innerPlay() throws IOException{
         //TODO find a way to avoid mistaking players
         //TODO make this function smaller
-        //Send basic intel
+        // Attempting to refactor code
+        Player[] actualPlayers = {playerOne, playerTwo};
+        int index = 0;
+        //
         long timeTaken;
-        timeTaken = oneMove(String.valueOf(playground.getSize()), playerOne);
-        if (timeTaken > maxWait) return new GameResult(playerTwo, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
-            logger.logCommunicationState(false);
-            return new GameResult(playerTwo, Setteling.CLASSIC);
+
+        //Send basic intel
+        for (int i = 0; i < 2; i++) {
+            timeTaken = oneMove(String.valueOf(playground.getSize()), actualPlayers[index]);
+            index++;
+            index %= 2; // index now points to the next player
+            if (timeTaken > maxWait) return new GameResult(actualPlayers[index], Setteling.TIMEOUT);
+            if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
+                logger.logCommunicationState(false);
+                return new GameResult(actualPlayers[index], Setteling.CLASSIC);
+            }
+            logger.logCommunicationState(true);
         }
-
-        logger.logCommunicationState(true);
-
-        timeTaken = oneMove(String.valueOf(playground.getSize()), playerTwo);
-        if (timeTaken > maxWait) return new GameResult(playerOne, Setteling.TIMEOUT);
-        if (isWrong(messenger.getAnswer(), MessageType.INFORMATION)) {
-            logger.logCommunicationState(false); //Second made mistake
-            return new GameResult(playerOne, Setteling.CLASSIC);
-        }
-
-        logger.logCommunicationState(true);
 
         //Send obstacles
         timeTaken = oneMove(playground.printObstacles(), playerOne);
@@ -76,8 +71,8 @@ public class Game {
 
         logger.logCommunicationState(true);
         //Start game
-        while (true) {
-            timeTaken = oneMove("START", playerOne);
+
+        timeTaken = oneMove("START", playerOne);
             String answer = messenger.getAnswer();
             if (timeTaken > maxWait) return new GameResult(playerTwo, Setteling.TIMEOUT);
             if (isWrong(answer, MessageType.MOVE)) {
@@ -85,7 +80,7 @@ public class Game {
                 return new GameResult(playerTwo, Setteling.CLASSIC);
             }
             logger.logMove(new Block(answer));
-
+        while (true) {
             timeTaken = oneMove(answer, playerTwo);
             answer = messenger.getAnswer();
             if (timeTaken > maxWait) return new GameResult(playerOne, Setteling.TIMEOUT);
@@ -93,14 +88,37 @@ public class Game {
                 logger.logPlayerError();
                 return new GameResult(playerOne, Setteling.CLASSIC);
             }
+            if (playground.isFull())
+                return new GameResult(playerTwo, Setteling.CLASSIC);
             logger.logMove( new Block(answer));
+
+            timeTaken = oneMove(answer, playerOne);
+            answer = messenger.getAnswer();
+            if (timeTaken > maxWait) return new GameResult(playerTwo, Setteling.TIMEOUT);
+            if (isWrong(answer, MessageType.MOVE)) {
+                logger.logPlayerError();
+                return new GameResult(playerTwo, Setteling.CLASSIC);
+            }
+            if (playground.isFull())
+                return new GameResult(playerOne, Setteling.CLASSIC);
+            logger.logMove(new Block(answer));
+
         }
     }
 
     public GameResult play() {
         messenger = new Messenger(playerOne, playerTwo);
         try {
-            messenger.openCommunication();
+            messenger.openCommunication(playerOne);
+        } catch (IOException e) {
+            return new GameResult(playerTwo, Setteling.TIMEOUT);
+        }
+        try {
+            messenger.openCommunication(playerTwo);
+        } catch (IOException e) {
+            return new GameResult(playerOne, Setteling.TIMEOUT);
+        }
+        try {
             logger = new Logger(this);
             GameResult tmp = this.innerPlay();
             logger.close();
@@ -111,11 +129,6 @@ public class Game {
         }
         return null;
     }
-
-    /*
-    TODO consider increasing time measuring precision
-    TODO find better fitting name
-    */
     private long oneMove(String message, Player player) {
         long timeTaken = 0;
         long startTime = System.currentTimeMillis();
@@ -124,7 +137,7 @@ public class Game {
         while (!messenger.isDelivered()) {
             Thread.yield();
             if (timeTaken > waitTime) {
-                return timeTaken;
+                return timeTaken * 1000 * 1000;
             }
             timeTaken = System.currentTimeMillis() - startTime;
             Thread.yield();
@@ -134,7 +147,6 @@ public class Game {
 
     /*
     TODO consider making it case insensitive
-    TODO make distinguishable case when time out
     */
     private boolean isWrong(String answer, MessageType messageType) {
         switch (messageType) {
