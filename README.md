@@ -37,7 +37,18 @@ java -jar TheAmazingProgram.jar
 Inne przykłady znajdują się w podkatalogach katalogu [example_players](example_players).  
 [Jeden z nich](example_players/024680/info.txt).
 
-## Przykład komunikacji
+## Komunikacja
+Przed rozpoczęciem rozgrywki sędzia wysyła do każdego z graczy informację o rozmiarze planszy oraz listę początkowych przeszkód.  
+Podczas rozgrywki sędzia na przemian wysyła do gracza informację o ruchu przeciwnika i czeka na ruch gracza.  
+Wszystkie komunikaty przesyłane są przez **standardowe wejście/wyjście** programu uczestnika.  
+
+Czas w jakim gracz musi wysłać odpowiedź to **0,5s**. W przypadku nie otrzymania odpowiedzi gracz przegrywa aktualną grę.  
+Wszystkie wiadomości są wysyłane jako **zwykły tekst** z kodowaniem ASCII.
+
+Wysyłanie tekstu przez programy grające musi odbywać się __jednym ciągiem__, przez komendę typu `println()`. Kluczowe jest wysłanie **znaku nowej linii** na końcu komunikatu.  
+Wysyłanie kolejnych liczb po jednej, nawet jeśli wszystkie zmieszczą się w wyznaczonym terminie nawet, jeśli dodany zostanie na końcu znak nowej linii, uznane będzie za ruch niepoprawny.
+
+### Przykład komunikacji
 | Lp. | Gracz           | Sędzia                        | Komentarz                                                   |
 |-----|-----------------|-------------------------------|-------------------------------------------------------------|
 | 1   |                 | 15                            | Rozmiar planszy                                             |
@@ -47,7 +58,6 @@ Inne przykłady znajdują się w podkatalogach katalogu [example_players](exampl
 | 5   |                 | start **LUB** {x1;y1},{x2;y2} | Komunikat rozpoczęcia **LUB** Pierwszy ruch drugiego gracza |
 | 6   | {x1;y1},{x2;y2} |                               | Ruch gracza                                                 |
 
-Wszystkie wiadomości są wysyłane jako **zwykły tekst**.
 
 -----------------
 
