@@ -11,3 +11,9 @@
 | 6   | {x1;y1},{x2;y2} |                               | Ruch gracza                                                 |
 
 Wszystkie wiadomości są wysyłane jako **zwykły tekst**.
+
+-----------------
+
+**Autorzy:**  
+Patryk Piętka  
+Krzysztof Dąbrowski
