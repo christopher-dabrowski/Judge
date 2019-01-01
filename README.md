@@ -21,6 +21,22 @@ By wziąć udział w turnieju należy przygotować **dwa pliki**:
 Oba te pliki należy umieścić w folderze, którego nazwa to **numer albumu** uczestnika.
 Przykładowe foldery graczy można znaleźć w katalogu [example_players](example_players).
 
+## Plik info.txt
+Plik ten zawiera metadane dotyczące uczestnika turnieju.
+
+### Składnia
+\<_alias_\>  
+\<_Imię_\> \<_Nazwisko_\>  
+\<_Komenda odpalająca program_\>
+
+### Przykładowy plik info.txt
+Henro200  
+Henryk Domaniewski  
+java -jar TheAmazingProgram.jar
+
+Inne przykłady znajdują się w podkatalogach katalogu [example_players](example_players).  
+[Jeden z nich](example_players/024680/info.txt).
+
 ## Przykład komunikacji
 | Lp. | Gracz           | Sędzia                        | Komentarz                                                   |
 |-----|-----------------|-------------------------------|-------------------------------------------------------------|
