@@ -5,6 +5,15 @@ Program napisany w ramach zadania przewodniego drugiej połowy semestru laborato
 
 Celem zadania jest napisanie programu przeprowadzającego turniej w [grę logiczną](##Opis-gry) między podanymi graczami (napisanymi przez innych studentów). Program zajmuje się kolejkowaniem meczy, obróbką i prezentacją wyników i historii oraz pełni rolę arbitra między graczami w trakcie trwania rozgrywki.
 
+## Opis gry
+Gracze stawiają na przemian bloki **2x1** (przypominające kostki domino). Dany blok można postawić **pionowo** lub **poziomo** na wolnych polach planszy.  
+**Celem gry** jest uniemożliwienie przeciwnikowi wykonania ruchu, poprzez zajęcie ostatniego wolnego pola umożliwiającego ruch.
+
+* Gra rozgrywana jest na planszy mającej **n x n** pól. Gdzie **n** jest nieparzystą liczbą naturalną, która zostanie wybrana w dniu przeprowadzenia turnieju.  
+* Skrajne pola planszy sąsiadują ze sobą (plansza przypomina sferę).
+* Nie możliwe jest położenie bloku _na skos_. Wyklucza to między innymi postawienie jednego bloku na przeciwległych rogach planszy.
+* Na początku rozgrywki **10%** losowo wybranych pól jest zajętych.
+
 ## Przykład komunikacji
 | Lp. | Gracz           | Sędzia                        | Komentarz                                                   |
 |-----|-----------------|-------------------------------|-------------------------------------------------------------|
