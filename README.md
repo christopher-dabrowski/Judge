@@ -2,7 +2,6 @@
 
 Program napisany w ramach zadania przewodniego drugiej połowy semestru laboratoriów z _Algorytmów i Struktur Danych_ prowadzonych przez dr Tomasza Lesia.
 
-
 Celem zadania jest napisanie programu przeprowadzającego turniej w [grę logiczną](##Opis-gry) między podanymi graczami (napisanymi przez innych studentów). Program zajmuje się kolejkowaniem meczy, obróbką i prezentacją wyników i historii oraz pełni rolę arbitra między graczami w trakcie trwania rozgrywki.
 
 ## Opis gry
@@ -13,6 +12,14 @@ Gracze stawiają na przemian bloki **2x1** (przypominające kostki domino). Dany
 * Skrajne pola planszy sąsiadują ze sobą (plansza przypomina sferę).
 * Nie możliwe jest położenie bloku _na skos_. Wyklucza to między innymi postawienie jednego bloku na przeciwległych rogach planszy.
 * Na początku rozgrywki **10%** losowo wybranych pól jest zajętych.
+
+## Wzięcie udziału
+By wziąć udział w turnieju należy przygotować **dwa pliki**:
+* Plik programu, który będzie grał w turnieju
+* Plik **info.txt** ([_składnia_](##Plik-info.txt))
+
+Oba te pliki należy umieścić w folderze, którego nazwa to **numer albumu** uczestnika.
+Przykładowe foldery graczy można znaleźć w katalogu [example_players](example_players).
 
 ## Przykład komunikacji
 | Lp. | Gracz           | Sędzia                        | Komentarz                                                   |
