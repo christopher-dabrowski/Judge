@@ -1,5 +1,10 @@
 # Sędzia na Algorytmy i struktury danych
 
+Program napisany w ramach zadania przewodniego drugiej połowy semestru laboratoriów z _Algorytmów i Struktur Danych_ prowadzonych przez dr Tomasza Lesia.
+
+
+Celem zadania jest napisanie programu przeprowadzającego turniej w [grę logiczną](##Opis-gry) między podanymi graczami (napisanymi przez innych studentów). Program zajmuje się kolejkowaniem meczy, obróbką i prezentacją wyników i historii oraz pełni rolę arbitra między graczami w trakcie trwania rozgrywki.
+
 ## Przykład komunikacji
 | Lp. | Gracz           | Sędzia                        | Komentarz                                                   |
 |-----|-----------------|-------------------------------|-------------------------------------------------------------|
