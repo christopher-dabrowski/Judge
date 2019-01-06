@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class BattleImage {
-    //This is matrix that uses y x cordinates but image uses x y
     @Getter
     private BufferedImage bufferedImage;
     private Graphics2D graphics;
@@ -30,15 +29,15 @@ public class BattleImage {
         drawSeparation();
     }
 
-    public void take(int y, int x, Color color) {
+    public void take(int x, int y, Color color) {
         int positionX = (blockWidth + spacingSize) * x + spacingSize;
         int positionY = (blockHeight + spacingSize) * y + spacingSize;
         graphics.setColor(color);
         graphics.fillRect(positionX, positionY, blockWidth, blockHeight);
     }
 
-    public void clear(int y, int x) {
-        take(y, x, background);
+    public void clear(int x, int y) {
+        take(x, y, background);
     }
 
     private void drawSeparation() {

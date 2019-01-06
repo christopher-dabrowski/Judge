@@ -16,6 +16,6 @@ public class Obstacle {
 
     @Override
     public String toString() {
-        return String.format("{%d;%d}", y, x);
+        return String.format("{%d;%d}", x, y);
     }
 }

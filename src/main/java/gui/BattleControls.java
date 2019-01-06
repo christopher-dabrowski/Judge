@@ -98,8 +98,8 @@ public class BattleControls {
             Block block = null;
             for (int i = 0; i < 4; i++) {
                 block = revertedBlocks.pop();
-                coordinates[i++] = block.y;
-                coordinates[i] = block.x;
+                coordinates[i++] = block.x;
+                coordinates[i] = block.y;
                 pastBlocks.push(block);
             }
             blockColor = block.playerColor;
@@ -118,7 +118,7 @@ public class BattleControls {
         if (!pastBlocks.empty()) {
             for (int i = 0; i < 2; i++) {
                 Block block = pastBlocks.pop();
-                battlePreview.clear(block.y, block.x);
+                battlePreview.clear(block.x, block.y);
                 revertedBlocks.push(block);
             }
             battlePreview.repaint();
@@ -128,7 +128,7 @@ public class BattleControls {
     // Recreating game
     public void setUpBattleParser(BattleParser battleParser) {
         this.battleParser = battleParser;
-        //y; x
+        //x ; y
         List<Integer> obstacles = battleParser.nextObstacles();
         var PlayerOne = battleParser.nextPlayer();
         var PlayerTwo = battleParser.nextPlayer();
@@ -143,8 +143,8 @@ public class BattleControls {
 
     @AllArgsConstructor
     private class Block {
-        int y;
         int x;
+        int y;
         Color playerColor;
     }
 }

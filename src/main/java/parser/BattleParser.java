@@ -64,6 +64,10 @@ public class BattleParser {
         return answer;
     }
 
+    public String next() {
+        return scanner.next();
+    }
+
     public void skipOkEtc() {
         scanner.skip("[\\w\\s]+:\\s");
     }

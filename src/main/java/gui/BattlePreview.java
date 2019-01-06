@@ -27,12 +27,12 @@ public class BattlePreview extends JPanel {
         this.setPreferredSize(new Dimension(battleImage.getBufferedImage().getWidth(), battleImage.getBufferedImage().getHeight()));
     }
 
-    public void take(int y, int x, Color color) {
-        battleImage.take(y, x, color);
+    public void take(int x, int y, Color color) {
+        battleImage.take(x, y, color);
     }
 
-    public void clear(int y, int x) {
-        battleImage.clear(y, x);
+    public void clear(int x, int y) {
+        battleImage.clear(x, y);
     }
 
     @Override

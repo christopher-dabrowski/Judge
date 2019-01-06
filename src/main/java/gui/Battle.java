@@ -14,10 +14,10 @@ public class Battle {
     private JPanel overlay;
 
     public static void main(String... args) {
-        JFrame jFrame = new JFrame("TEST" + BattleControls.class);
+        JFrame jFrame = new JFrame("TEST");
         try {
             Battle battle = new Battle();
-            battle.giveFile(new File("game_logs/123456VS987654.log"));
+            battle.giveFile(new File("C:\\Users\\tooR\\Documents\\AA_Studia\\Judge\\game_logs\\024680VS123456.log"));
             jFrame.setContentPane(battle.overlay);
             jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             jFrame.pack();

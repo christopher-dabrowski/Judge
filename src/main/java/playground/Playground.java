@@ -137,37 +137,37 @@ public class Playground implements Cloneable {
     /**
      * Tried to place 2x1 block on a board.
      *
-     * @param y1 y of firs 1x1
-     * @param x1 x of firs 1x1
-     * @param y2 y of second 1x1
-     * @param x2 x of second 1x1
+     * @param x1 y of firs 1x1
+     * @param y1 x of firs 1x1
+     * @param x2 y of second 1x1
+     * @param y2 x of second 1x1
      * @return If arguments doesn't make valid move returns false
      */
-    public boolean take(int y1, int x1, int y2, int x2) {
-        if (y1 > map.length || y1 < 0)
-            return false;
+    public boolean take(int x1, int y1, int x2, int y2) {
         if (x1 > map.length || x1 < 0)
             return false;
-        if (y2 > map.length || y2 < 0)
+        if (y1 > map.length || y1 < 0)
             return false;
         if (x2 > map.length || x2 < 0)
             return false;
-        if (map[y1][x1].isTaken() || map[y2][x2].isTaken())
+        if (y2 > map.length || y2 < 0)
+            return false;
+        if (map[x1][y1].isTaken() || map[x2][y2].isTaken())
             return false;
 
-        if (y1 == y2) { //Horizontal block
+        if (x1 == x2) { //Horizontal block
             //Blocks aren't directly adjacent. Check if they are on the very right and left edge
-            if ((Math.abs(x1 - x2) != 1) && (Math.abs(x1 - x2) != map.length - 1))
-                return false;
-        } else if (x1 == x2) { //Vertical block
-            //Blocks aren't directly adjacent. Check if they are on the very top and bottom
             if ((Math.abs(y1 - y2) != 1) && (Math.abs(y1 - y2) != map.length - 1))
+                return false;
+        } else if (y1 == y2) { //Vertical block
+            //Blocks aren't directly adjacent. Check if they are on the very top and bottom
+            if ((Math.abs(x1 - x2) != 1) && (Math.abs(x1 - x2) != map.length - 1))
                 return false;
         } else return false;
 
 
-        map[y1][x1].take();
-        map[y2][x2].take();
+        map[x1][y1].take();
+        map[x2][y2].take();
         return true;
 
     }
@@ -182,13 +182,13 @@ public class Playground implements Cloneable {
         return true;
     }
 
-    private boolean vonNeumannFreeNeighbours(int y, int x) {
+    private boolean vonNeumannFreeNeighbours(int x, int y) {
         for (int i = -1; i < 2; i += 2)
-            if (!map[modulus(y + i, map.length)][modulus(x, map.length)].isTaken())
+            if (!map[modulus(x + i, map.length)][modulus(y, map.length)].isTaken())
                 return true;
 
         for (int i = -1; i < 2; i += 2)
-            if (!map[modulus(y, map.length)][modulus(x + i, map.length)].isTaken())
+            if (!map[modulus(x, map.length)][modulus(y + i, map.length)].isTaken())
                 return true;
 
         return false;

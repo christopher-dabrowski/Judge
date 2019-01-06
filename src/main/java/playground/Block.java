@@ -19,7 +19,7 @@ public class Block {
      * @param y2 Second tile of block
      * @param x2 Second tile of block
      */
-    public Block(int y1, int x1, int y2, int x2) {
+    public Block(int x1, int y1, int x2, int y2) {
         parts = new Pair<>(new Part(x1, y1), new Part(x2, y2));
     }
 
