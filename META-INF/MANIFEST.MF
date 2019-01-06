@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: forms-1.2.1.jar annotations-java5-16.0.3.jar
+Main-Class: gui.GUIMain
+

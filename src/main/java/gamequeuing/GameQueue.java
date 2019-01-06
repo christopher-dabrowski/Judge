@@ -49,7 +49,7 @@ public class GameQueue {
 
     private void addWinner(Map<Player, GameStatistics> map, GameResult gameResult) {
         map.get(gameResult.getPlayer()).incrementWins();
-        if (gameResult.getSetteling() != Setteling.TIMEOUT)
+        if (gameResult.getSetteling() == Setteling.TIMEOUT)
             map.get(gameResult.getPlayer()).incrementKnockouts();
     }
 

@@ -50,11 +50,12 @@ public class FileManager {
                             throw new FileNotFoundException("Players folder missing info.txt");
                         File playerInfo = listOfFiles[0];
                         Player newPlayer = Parser.readPlayerInfo(playerInfo.getPath());
-                        newPlayer.setFullLunchCommand(
-                                playersFolder.getAbsolutePath() + "\\"
-                                        + newPlayer.getIndexNumber() + "\\"
-                                        + newPlayer.getLunchCommand()
-                        );
+//                        newPlayer.setFullLunchCommand(
+//                                playersFolder.getAbsolutePath() + "\\"
+//                                        + newPlayer.getIndexNumber() + "\\"
+//                                        + newPlayer.getLunchCommand()
+//                        );
+                        newPlayer.setFullLunchCommand(newPlayer.getLunchCommand());
 
                         players.add(newPlayer);
                     } catch (FileNotFoundException e) {
