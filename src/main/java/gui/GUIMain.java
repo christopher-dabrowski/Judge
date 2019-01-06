@@ -63,6 +63,9 @@ public class GUIMain {
                     });
                     ListDisplay<GameStatistics> listDisplay = new ListDisplay<>();
                     listDisplay.setSubject(scores);
+
+                    frame.setVisible(false); //Close this window
+
                     JFrame jFrame = new JFrame("Scores");
                     jFrame.setContentPane(listDisplay.getOverlay());
                     jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
