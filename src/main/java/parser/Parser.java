@@ -71,10 +71,10 @@ public class Parser {
 
             String programName = matcher.group();
 
-            return "java -jar " + parenFolderPath + "\\" + programName;
+            return "java -jar \"" + parenFolderPath + "\\" + programName + "\"";
         }
         else if (isExeProgram(lunchCommand)) {
-            return parentFolder.getAbsolutePath() + "\\" + lunchCommand;
+            return "\"" + parentFolder.getAbsolutePath() + "\\" + lunchCommand + "\"";
         }
         else { //Type unrecognized. Better not touch
             return lunchCommand;
