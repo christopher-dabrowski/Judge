@@ -1,6 +1,8 @@
 package parser;
 
 import mainlogic.Player;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +16,9 @@ public class Parser {
         Scanner input = new Scanner(new FileReader(fileName));
         String indexNumber, alias, name, surname, lunchCommand;
 
-        indexNumber = new File( new File(fileName).getParent() ).getName(); //Get name of parent of info.txt file
+        File playerFolder = new File(fileName).getParentFile();
+        System.out.println(playerFolder.getAbsolutePath());
+        indexNumber = playerFolder.getName(); //Get name of parent of info.txt file
 
         try {
             if (input.hasNext())
@@ -40,6 +44,10 @@ public class Parser {
                 lunchCommand = input.nextLine();
                 if (lunchCommand.length() <= 0) throw new ParseException("No lunch command", 3);
             } else throw new ParseException("No lunch command", 3);
+
+            //TODO: Set full lunch command
+
+
         } catch (ParseException e) {
             input.close(); //Close input and rethrow exception
             throw e;
@@ -47,5 +55,15 @@ public class Parser {
 
         input.close();
         return new Player(indexNumber, alias, name, surname, lunchCommand);
+    }
+
+    @Contract(pure = true)
+    public static boolean isJavaProgram(@NotNull String lunchCommand) {
+        return lunchCommand.matches("java -jar .*.jar");
+    }
+
+    @Contract(pure = true)
+    public static boolean isExeProgram(@NotNull String lunchCommand) {
+        return lunchCommand.matches(".*.exe");
     }
 }
