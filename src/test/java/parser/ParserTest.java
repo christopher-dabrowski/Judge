@@ -50,7 +50,8 @@ public class ParserTest {
         }
         //if (player == null) fail();
 
-        if (!player.toString().equals("Kserkses Aleksander Dobrowolski fajny_program.exe")) fail();
+        if (!player.toString().equals("Kserkses Aleksander Dobrowolski fajny_program.exe"))
+            fail();
     }
 
     @Test
@@ -74,7 +75,7 @@ public class ParserTest {
             fail();
         }
 
-        if (!player.getFullLunchCommand().matches("java -jar [A-Z]:\\\\.*\\\\\\d{6}\\\\.*.jar"))
+        if (!player.getFullLunchCommand().matches("java -jar \"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.jar\""))
             fail();
     }
 
@@ -126,7 +127,7 @@ public class ParserTest {
             fail();
         }
 
-        if (!player.getFullLunchCommand().matches("[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.exe"))
+        if (!player.getFullLunchCommand().matches("\"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.exe\""))
             fail();
     }
 
