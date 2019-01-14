@@ -55,7 +55,7 @@ public class FileManager {
 //                                        + newPlayer.getIndexNumber() + "\\"
 //                                        + newPlayer.getLunchCommand()
 //                        );
-                        newPlayer.setFullLunchCommand(newPlayer.getLunchCommand());
+                        //newPlayer.setFullLunchCommand(newPlayer.getLunchCommand());
 
                         players.add(newPlayer);
                     } catch (FileNotFoundException e) {

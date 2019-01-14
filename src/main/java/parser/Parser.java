@@ -9,12 +9,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Parser {
     public static Player readPlayerInfo(String fileName) throws FileNotFoundException, ParseException {
 
         Scanner input = new Scanner(new FileReader(fileName));
-        String indexNumber, alias, name, surname, lunchCommand;
+        String indexNumber, alias, name, surname, lunchCommand, fullLunchCommand;
 
         File playerFolder = new File(fileName).getParentFile();
         System.out.println(playerFolder.getAbsolutePath());
@@ -45,8 +47,7 @@ public class Parser {
                 if (lunchCommand.length() <= 0) throw new ParseException("No lunch command", 3);
             } else throw new ParseException("No lunch command", 3);
 
-            //TODO: Set full lunch command
-
+            fullLunchCommand = generateFullLunchCommand(playerFolder, lunchCommand);
 
         } catch (ParseException e) {
             input.close(); //Close input and rethrow exception
@@ -54,7 +55,27 @@ public class Parser {
         }
 
         input.close();
-        return new Player(indexNumber, alias, name, surname, lunchCommand);
+        return new Player(indexNumber, alias, name, surname, lunchCommand, fullLunchCommand);
+    }
+
+    private static String generateFullLunchCommand(File parentFolder, String lunchCommand) {
+        String parenFolderPath = parentFolder.getAbsolutePath();
+
+        if (isJavaProgram(lunchCommand)) {
+            Pattern pattern = Pattern.compile("(\\b\\w*\\.jar)");
+            Matcher matcher = pattern.matcher(lunchCommand);
+            matcher.find();
+
+            String programName = matcher.group();
+
+            return "java -jar " + parenFolderPath + "\\" + programName;
+        }
+        else if (isExeProgram(lunchCommand)) {
+            return parentFolder.getAbsolutePath() + "\\" + lunchCommand;
+        }
+        else { //Type unrecognized. Better not touch
+            return lunchCommand;
+        }
     }
 
     @Contract(pure = true)
