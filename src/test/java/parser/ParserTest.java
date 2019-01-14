@@ -119,7 +119,7 @@ public class ParserTest {
             fail();
         }
 
-        if (!player.getFullLunchCommand().matches("[A-Z]:\\.*\\\d{6}\\.*.exe"))
+        if (!player.getFullLunchCommand().matches("[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.exe"))
             fail();
     }
 
