@@ -67,8 +67,34 @@ public class ParserTest {
             fail();
         }
 
-        System.out.println(FileManager.getProgramLocation());
         if (!player.getFullLunchCommand().matches("java -jar [A-Z]:\\\\.*\\\\\\d{6}\\\\.*.jar"))
+            fail();
+    }
+
+    @Test
+    public void javaPathAlreadyProvided() throws IOException {
+        String initialCommand = "java -jar D:\\folder\\proGram.jar";
+
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println(initialCommand);
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().equals(initialCommand)) //Path shouldn't be changed
             fail();
     }
 
