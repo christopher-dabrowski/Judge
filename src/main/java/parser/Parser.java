@@ -59,6 +59,9 @@ public class Parser {
     }
 
     private static String generateFullLunchCommand(File parentFolder, String lunchCommand) {
+        if (lunchCommand.contains("\\")) //It's already a path
+            return lunchCommand;
+
         String parenFolderPath = parentFolder.getAbsolutePath();
 
         if (isJavaProgram(lunchCommand)) {
