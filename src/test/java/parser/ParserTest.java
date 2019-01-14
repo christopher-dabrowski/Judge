@@ -19,6 +19,13 @@ public class ParserTest {
     public void setUp() /*throws Exception*/ {
         new File(tempFolderName).mkdir();
         new File(tempPlayerFolderName).mkdir();
+        try {
+            new File(temFileName).createNewFile();
+        }
+        catch (IOException e) {
+            fail();
+        }
+
     }
 
     @Test
@@ -162,6 +169,22 @@ public class ParserTest {
 
         File tempFolder = new File(tempFolderName);
         if (!tempFolder.delete())
+            fail();
+    }
+
+    @Test
+    public void isJavaProgram() {
+        if (!Parser.isJavaProgram("java -jar programName.jar"))
+            fail();
+        if (Parser.isJavaProgram("steam.exe"))
+            fail();
+    }
+
+    @Test
+    public void isExeProgram() {
+        if (Parser.isExeProgram("java -jar programName.jar"))
+            fail();
+        if (!Parser.isExeProgram("steam.exe"))
             fail();
     }
 }
