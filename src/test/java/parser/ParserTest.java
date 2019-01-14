@@ -100,7 +100,54 @@ public class ParserTest {
 
     @Test
     public void appendExePath() {
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println("gamer.exe");
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
 
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().matches("[A-Z]:\\.*\\\d{6}\\.*.exe"))
+            fail();
+    }
+
+    @Test
+    public void edePathAlreadyProvided() {
+        String initialPath = "F:\\folder1\\folder22\\gamer.exe";
+
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println(initialPath);
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().equals(initialPath))
+            fail();
     }
 
     @After
