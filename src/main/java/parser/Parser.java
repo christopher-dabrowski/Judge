@@ -74,7 +74,16 @@ public class Parser {
             return "java -jar \"" + parenFolderPath + "\\" + programName + "\"";
         }
         else if (isExeProgram(lunchCommand)) {
-            return "\"" + parentFolder.getAbsolutePath() + "\\" + lunchCommand + "\"";
+            return "\"" + parenFolderPath + "\\" + lunchCommand + "\"";
+        }
+        else if (isPythonProgram(lunchCommand)) {
+            Pattern pattern = Pattern.compile("(\\b\\w*\\.py)");
+            Matcher matcher = pattern.matcher(lunchCommand);
+            matcher.find();
+
+            String programName = matcher.group();
+
+            return String.format("python \"%s\\%s\"", parenFolderPath, programName);
         }
         else { //Type unrecognized. Better not touch
             return lunchCommand;
@@ -89,5 +98,10 @@ public class Parser {
     @Contract(pure = true)
     public static boolean isExeProgram(@NotNull String lunchCommand) {
         return lunchCommand.matches(".*.exe");
+    }
+
+    @Contract(pure = true)
+    private static boolean isPythonProgram(@NotNull String lunchCommand) {
+        return lunchCommand.contains(".py");
     }
 }
