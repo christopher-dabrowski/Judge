@@ -80,6 +80,31 @@ public class ParserTest {
     }
 
     @Test
+    public void appendJavaPathWhenGivenJustProgramName() throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println("proGram.jar");
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().matches("java -jar \"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.jar\""))
+            fail();
+    }
+
+    @Test
     public void javaPathAlreadyProvided() throws IOException {
         String initialCommand = "java -jar D:\\folder\\proGram.jar";
 
@@ -103,6 +128,81 @@ public class ParserTest {
         }
 
         if (!player.getFullLunchCommand().equals(initialCommand)) //Path shouldn't be changed
+            fail();
+    }
+
+    @Test
+    public void appendPythonPath() throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println("python theGamer.py");
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().matches("(python|py) \"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.py\""))
+            fail();
+    }
+
+    @Test
+    public void appendPyPath() throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println("py theGamer.py");
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().matches("(python|py) \"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.py\""))
+            fail();
+    }
+
+    @Test
+    public void appendPythonPathWhenGivenJustProgramName() throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(temFileName, "UTF-8");
+            writer.println("Kserkses");
+            writer.println("Aleksander Dobrowolski");
+            writer.println("theGamer.py");
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException exception) {
+            fail();
+        }
+
+        Player player = null;
+
+        try {
+            player = Parser.readPlayerInfo(temFileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        if (!player.getFullLunchCommand().matches("(python|py) \"[A-Z]:\\\\.*\\\\\\d{6}\\\\.*.py\""))
             fail();
     }
 
@@ -132,7 +232,7 @@ public class ParserTest {
     }
 
     @Test
-    public void edePathAlreadyProvided() {
+    public void exePathAlreadyProvided() {
         String initialPath = "F:\\folder1\\folder22\\gamer.exe";
 
         try {
