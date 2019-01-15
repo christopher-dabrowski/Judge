@@ -92,7 +92,7 @@ public class Parser {
 
     @Contract(pure = true)
     public static boolean isJavaProgram(@NotNull String lunchCommand) {
-        return lunchCommand.matches("java -jar .*.jar");
+        return lunchCommand.contains(".jar");
     }
 
     @Contract(pure = true)
