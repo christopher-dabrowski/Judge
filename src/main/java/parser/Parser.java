@@ -91,13 +91,13 @@ public class Parser {
     }
 
     @Contract(pure = true)
-    public static boolean isJavaProgram(@NotNull String lunchCommand) {
+    private static boolean isJavaProgram(@NotNull String lunchCommand) {
         return lunchCommand.contains(".jar");
     }
 
     @Contract(pure = true)
-    public static boolean isExeProgram(@NotNull String lunchCommand) {
-        return lunchCommand.matches(".*.exe");
+    private static boolean isExeProgram(@NotNull String lunchCommand) {
+        return lunchCommand.contains(".exe");
     }
 
     @Contract(pure = true)

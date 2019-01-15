@@ -272,20 +272,4 @@ public class ParserTest {
         if (!tempFolder.delete())
             fail();
     }
-
-    @Test
-    public void isJavaProgram() {
-        if (!Parser.isJavaProgram("java -jar programName.jar"))
-            fail();
-        if (Parser.isJavaProgram("steam.exe"))
-            fail();
-    }
-
-    @Test
-    public void isExeProgram() {
-        if (Parser.isExeProgram("java -jar programName.jar"))
-            fail();
-        if (!Parser.isExeProgram("steam.exe"))
-            fail();
-    }
 }
