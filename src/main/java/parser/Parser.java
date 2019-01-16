@@ -83,7 +83,7 @@ public class Parser {
 
             String programName = matcher.group();
 
-            return String.format("python \"%s\\%s\"", parenFolderPath, programName);
+            return String.format("py \"%s\\%s\"", parenFolderPath, programName);
         }
         else { //Type unrecognized. Better not touch
             return lunchCommand;
