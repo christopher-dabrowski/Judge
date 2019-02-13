@@ -55,6 +55,7 @@ public class GUIMain {
                     jFrame.setVisible(true);
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(frame, "Error occurred when loading player files");
+                    exception.printStackTrace();
                 }
 
             } else {

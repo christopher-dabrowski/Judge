@@ -155,7 +155,7 @@ public class Game {
                 if (tokens.length != 5) return true;
                 return !playground.take(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), Integer.valueOf(tokens[4]));
             case INFORMATION:
-                return !answer.equals("ok");
+                return answer == null || !answer.toLowerCase().equals("ok");
         }
         return false;
     }
