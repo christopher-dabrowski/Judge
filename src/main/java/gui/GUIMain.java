@@ -20,40 +20,20 @@ public class GUIMain {
     private JTextField playerFolderTextField;
     private JFileChooser fileChooser;
 
-    public static void main(String... args) {
-        JFrame jFrame = new JFrame("Judge");
-        GUIMain gui = new GUIMain(jFrame);
-        jFrame.setContentPane(gui.mainPanel);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        jFrame.setSize(600, 350);
-
-
-        //jFrame.pack();
-        jFrame.setVisible(true);
-    }
-
     private GUIMain(JFrame frame) {
         this.frame = frame;
-
-        //java.net.URL url = GUIMain.class.getResource("../../img/folder.png"); //Doesn't work
-//        try {
-//            Image img = ImageIO.read(getClass().getResource("img/folder.png")); //This won't work niter
-//            pickFolderButton.setIcon(new ImageIcon(img));
-//        } catch (IOException e) {
-//
-//        }
 
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         startButton.addActionListener(e -> {
-            if (verifyPlayersFolder()) {
+            if (verifyPlayersFolder()) { //if player's folder exists
                 try {
                     ArrayList<String> errors = new ArrayList<>(); //If there are errors with parsing player files we might print them
                     ArrayList<Player> players = FileManager.importPlayers(playerFolderTextField.getText(), errors);
-                    GameQueue gameQueue = new GameQueue(players);
-                    Map<Player, GameStatistics> list = gameQueue.morituriTeSalutant();
+                    GameQueue gameQueue = new GameQueue(players); //Create queue from players
+                    Map<Player, GameStatistics> list = gameQueue.morituriTeSalutant(); //Start tournament
+                    //Make leaderboard from results
                     List<GameStatistics> scores = new ArrayList<>(list.values());
                     scores.sort((o1, o2) -> {
                         if (o2.getKnockouts() - o1.getKnockouts() == 0)
@@ -61,6 +41,8 @@ public class GUIMain {
                         else
                             return o2.getWins() - o1.getWins();
                     });
+
+                    //Setup and display window with leaderboard
                     ListDisplay<GameStatistics> listDisplay = new ListDisplay<>();
                     listDisplay.setSubject(scores);
 
@@ -83,6 +65,17 @@ public class GUIMain {
         pickFolderButton.addActionListener(e -> handlePickPlayersFolderButtonClick());
     }
 
+    //Project's main
+    public static void main(String... args) {
+        JFrame jFrame = new JFrame("Judge");
+        GUIMain gui = new GUIMain(jFrame);
+        //SetUp main window
+        jFrame.setContentPane(gui.mainPanel);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setSize(600, 350);
+        jFrame.setVisible(true);
+    }
+
     private void handlePickPlayersFolderButtonClick() {
         int returnValue = fileChooser.showOpenDialog(frame);
 
@@ -91,6 +84,7 @@ public class GUIMain {
         }
     }
 
+    //Checks if player's folder exists
     private boolean verifyPlayersFolder() {
         File folder = new File(playerFolderTextField.getText());
 

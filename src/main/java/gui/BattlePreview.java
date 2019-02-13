@@ -12,6 +12,7 @@ public class BattlePreview extends JPanel {
         this.setDoubleBuffered(true);
     }
 
+    //Main used to test GUI element
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST" + BattlePreview.class);
         BattlePreview battlePreview = new BattlePreview();
@@ -22,16 +23,16 @@ public class BattlePreview extends JPanel {
         jFrame.setVisible(true);
     }
 
-    public void createBattleImage(int number) {
+    void createBattleImage(int number) {
         battleImage = new BattleImage(new Dimension(1000, 500), number);
         this.setPreferredSize(new Dimension(battleImage.getBufferedImage().getWidth(), battleImage.getBufferedImage().getHeight()));
     }
 
-    public void take(int x, int y, Color color) {
+    void take(int x, int y, Color color) {
         battleImage.take(x, y, color);
     }
 
-    public void clear(int x, int y) {
+    void clear(int x, int y) {
         battleImage.clear(x, y);
     }
 

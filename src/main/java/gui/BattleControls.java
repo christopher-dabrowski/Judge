@@ -30,6 +30,7 @@ public class BattleControls {
     private int index = 0;
     private Stack<Block> pastBlocks = new Stack<>();
     private Stack<Block> revertedBlocks = new Stack<>();
+    //Thread that menages taking and untaking blocks
     private Thread daemon = new Thread(() -> {
         while (true) {
             if (play) {
@@ -47,7 +48,7 @@ public class BattleControls {
         }
     });
 
-    public BattleControls(BattlePreview battlePreview) {
+    BattleControls(BattlePreview battlePreview) {
         this.battlePreview = battlePreview;
 
         playButton.addActionListener(e -> {
@@ -84,16 +85,18 @@ public class BattleControls {
         daemon.start();
     }
 
+    //Takes one step forward in game
     private synchronized void takeNext() throws InputMismatchException {
-        int[] coordinates;
+        int[] coordinates; //coordinates of blocks to take
         Color blockColor;
-
-        if (revertedBlocks.empty()) {
+        if (revertedBlocks.empty()) { //Didn't we took any steps back?
+            //Parse next move and push blocks to stack
             coordinates = battleParser.nextMove();
             pastBlocks.push(new Block(coordinates[0], coordinates[1], colors[index].getForeground()));
             pastBlocks.push(new Block(coordinates[2], coordinates[3], colors[index].getForeground()));
             blockColor = colors[index].getForeground();
         } else {
+            //Take one of reverted steps
             coordinates = new int[4];
             Block block = null;
             for (int i = 0; i < 4; i++) {
@@ -105,6 +108,7 @@ public class BattleControls {
             blockColor = block.playerColor;
         }
 
+        //Colour blocks which coordinates are in coordinates table
         battlePreview.take(coordinates[0], coordinates[1], blockColor);
         battlePreview.take(coordinates[2], coordinates[3], blockColor);
         //Moving to next player
@@ -114,9 +118,10 @@ public class BattleControls {
         battlePreview.repaint();
     }
 
+    //Takes one step back in game
     private synchronized void unTake() {
-        if (!pastBlocks.empty()) {
-            for (int i = 0; i < 2; i++) {
+        if (!pastBlocks.empty()) {//If there are reverted blocks
+            for (int i = 0; i < 2; i++) {//Take one step back
                 Block block = pastBlocks.pop();
                 battlePreview.clear(block.x, block.y);
                 revertedBlocks.push(block);
@@ -126,7 +131,7 @@ public class BattleControls {
     }
 
     // Recreating game
-    public void setUpBattleParser(BattleParser battleParser) {
+    void setUpBattleParser(BattleParser battleParser) {
         this.battleParser = battleParser;
         //x ; y
         List<Integer> obstacles = battleParser.nextObstacles();

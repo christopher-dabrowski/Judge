@@ -48,6 +48,7 @@ public class ListDisplay<Type> {
         });
     }
 
+    //Main used to test GUI element
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST");
         List<GameStatistics> integerArrayList = new ArrayList<>();

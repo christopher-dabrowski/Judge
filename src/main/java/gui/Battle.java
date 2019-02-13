@@ -13,6 +13,7 @@ public class Battle {
     @Getter
     private JPanel overlay;
 
+    //Main used to test GUI element
     public static void main(String... args) {
         JFrame jFrame = new JFrame("TEST");
         try {
@@ -27,7 +28,7 @@ public class Battle {
         }
     }
 
-    public void giveFile(File file) throws FileNotFoundException {
+    void giveFile(File file) throws FileNotFoundException {
         BattleParser battleParser = new BattleParser(file);
         //The only use of battleParser outside of BattleControl
         battlePreview.createBattleImage(battleParser.nextBoard());
